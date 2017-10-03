@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1076568761342",
+    "firebase_url": "https://sports-a03cf.firebaseio.com",
+    "project_id": "sports-a03cf",
+    "storage_bucket": "sports-a03cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076568761342:android:84912f7f1a2aa43b",
+        "android_client_info": {
+          "package_name": "org.team7.sports"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076568761342-ph56b8shc5ehedjufhh3mn4dm6l6iom2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.team7.sports",
+            "certificate_hash": "91ac960f008ac86f175d70339641fef112b86f1f"
+          }
+        },
+        {
+          "client_id": "1076568761342-1t30fhhukev2lle8bsgr5dasgif4jejf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_7DgxJO9MgDh7bWGlJoeda7d4-t_9tvQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076568761342-1t30fhhukev2lle8bsgr5dasgif4jejf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

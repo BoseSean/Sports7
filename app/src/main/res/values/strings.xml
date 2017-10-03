@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Sports</string>
+    <string name="register">register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">E-mail</string>
+    <string name="login">Login</string>
+    <string name="register_failed">Failed to register.</string>
+    <string name="registering">Register new user</string>
+</resources>
