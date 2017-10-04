@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,11 +40,9 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: add exception handlling on null input of each fields
                 // TODO: add validation and handle invalide
                 String email = Email.getEditText().getText().toString();
-                String username = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
 
                 loginUser(email, password);
-                toMainActivity();
             }
         });
     }
@@ -53,16 +52,17 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            toMainActivity();
+                        if (task.isSuccessful()) {
+                            Intent mainIntent = new Intent( LoginActivity.this, MainActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainIntent);
+
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this,R.string.login_failed, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-    }
-    private void toMainActivity(){
-        Intent startIntent = new Intent( LoginActivity.this, MainActivity.class);
-        startActivity(startIntent);
-        finish();
     }
 
 }

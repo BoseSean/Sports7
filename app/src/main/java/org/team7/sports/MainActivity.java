@@ -1,6 +1,7 @@
 package org.team7.sports;
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private Toolbar mainToolBar;
-
+    private ViewPager viewPager;
+    private SectionPagerAdapter sectionPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: add internet checking
@@ -23,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mainToolBar = (Toolbar) findViewById(R.id.main_page_tool_bar);
+        mainToolBar = (Toolbar) findViewById(R.id.main_tool_bar);
         setSupportActionBar(mainToolBar);
+
+        // Tabs
+        viewPager = (ViewPager) findViewById(R.id.main_pager_bar);
     }
 
     @Override

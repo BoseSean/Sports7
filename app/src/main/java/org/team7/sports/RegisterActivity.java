@@ -65,13 +65,15 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     RegisterProgress.dismiss();
                     Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
                 } else {
                     // TODO: add detailed reason for registration failure.
+                    RegisterProgress.dismiss();
                     Toast.makeText(RegisterActivity.this,R.string.register_failed, Toast.LENGTH_LONG).show();
                 }
             }
