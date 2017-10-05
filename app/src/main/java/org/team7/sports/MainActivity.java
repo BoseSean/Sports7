@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         mainToolBar = (Toolbar) findViewById(R.id.main_tool_bar);
 
         // TODO: change to UserName/ProfileImage or both
-        mainToolBar.setTitle("abc");
-        mainToolBar.setLogo(R.drawable.pager_game);
+        mainToolBar.setTitle("Username");
         setSupportActionBar(mainToolBar);
 
 

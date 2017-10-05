@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Proudly created by Team7 on October, 2017.
+
+    MMP""MM""YMM `7MM"""YMM        db      `7MMM.     ,MMF'
+    P'   MM   `7   MM    `7       ;MM:       MMMb    dPMM
+         MM        MM   d        ,V^MM.      M YM   ,M MM M******A'
+         MM        MMmmMM       ,M  `MM      M  Mb  M' MM Y     A'
+         MM        MM   Y  ,    AbmmmqMA     M  YM.P'  MM      A'
+         MM        MM     ,M   A'     VML    M  `YM'   MM     A'
+       .JMML.    .JMMmmmmMMM .AMA.   .AMMA..JML. `'  .JMML.  A'
+                                                            A'
+                                                           A'
+-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.team7.sports">
 
