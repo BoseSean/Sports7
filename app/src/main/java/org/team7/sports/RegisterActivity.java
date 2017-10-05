@@ -17,10 +17,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseRef;
     private TextInputLayout Email;
     private TextInputLayout Username;
     private TextInputLayout Password;
@@ -33,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         Email = (TextInputLayout) findViewById(R.id.reg_email);
         Username = (TextInputLayout) findViewById(R.id.reg_username);
@@ -61,20 +69,39 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerNewUser(String email, String username, String password){
+    private void registerNewUser(String email, final String username, String password){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    RegisterProgress.dismiss();
-                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
+                    FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = currentUse.getUid();
+
+                    databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+                    HashMap<String, String> userMap = new HashMap();
+                    userMap.put("name", username);
+                    userMap.put("image", "default");
+                    databaseRef.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                                if(task.isSuccessful()){
+                                    RegisterProgress.dismiss();
+                                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(mainIntent);
+                                    finish();
+
+                                } else {
+                                    Toast.makeText(RegisterActivity.this,R.string.register_failed, Toast.LENGTH_LONG).show();
+                                    RegisterProgress.dismiss();
+                                }
+                        }
+                    });
                 } else {
                     // TODO: add detailed reason for registration failure.
-                    RegisterProgress.dismiss();
                     Toast.makeText(RegisterActivity.this,R.string.register_failed, Toast.LENGTH_LONG).show();
+                    RegisterProgress.dismiss();
                 }
             }
         });

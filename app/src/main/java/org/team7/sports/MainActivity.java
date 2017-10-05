@@ -1,6 +1,7 @@
 package org.team7.sports;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolBar;
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
+
+    private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: add internet checking
@@ -26,10 +29,24 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         mainToolBar = (Toolbar) findViewById(R.id.main_tool_bar);
+
+        // TODO: change to UserName/ProfileImage or both
+        mainToolBar.setTitle("abc");
+        mainToolBar.setLogo(R.drawable.pager_game);
         setSupportActionBar(mainToolBar);
 
+
+
         // Tabs
-        viewPager = (ViewPager) findViewById(R.id.main_pager_bar);
+        viewPager = (ViewPager) findViewById(R.id.main_tabs);
+        sectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(sectionPagerAdapter);
+        tabLayout = (TabLayout) findViewById(R.id.main_pager_bar);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.pager_message);
+        tabLayout.getTabAt(1).setIcon(R.drawable.pager_game);
+        tabLayout.getTabAt(2).setIcon(R.drawable.pager_team);
+        tabLayout.getTabAt(3).setIcon(R.drawable.pager_friend);
     }
 
     @Override

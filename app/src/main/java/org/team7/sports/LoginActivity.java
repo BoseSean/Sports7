@@ -1,5 +1,6 @@
 package org.team7.sports;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout Email;
     private TextInputLayout Password;
     private Button LoginBtn;
+    private ProgressDialog LoginProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         Email = (TextInputLayout) findViewById(R.id.login_email);
         Password = (TextInputLayout) findViewById(R.id.login_password);
         LoginBtn = (Button) findViewById(R.id.login_login_btn);
-
+        LoginProgress = new ProgressDialog(this);
         LoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -41,7 +43,9 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: add validation and handle invalide
                 String email = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
-
+                LoginProgress.setTitle(R.string.registering);
+                LoginProgress.setCanceledOnTouchOutside(false);
+                LoginProgress.show();
                 loginUser(email, password);
             }
         });
@@ -52,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        LoginProgress.dismiss();
                         if (task.isSuccessful()) {
                             Intent mainIntent = new Intent( LoginActivity.this, MainActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);

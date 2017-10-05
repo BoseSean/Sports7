@@ -13,6 +13,7 @@
 
     </include>
     <android.support.v4.view.ViewPager
+        android:id="@+id/main_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/main_pager_bar"
@@ -22,11 +23,13 @@
 
     </android.support.v4.view.ViewPager>
 
-    <include android:id="@+id/main_pager_bar"
+    <include
+        android:id="@+id/main_pager_bar"
         layout="@layout/app_pager_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
 
     </include>
 </RelativeLayout>

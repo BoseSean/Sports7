@@ -1,5 +1,6 @@
 package org.team7.sports;
 
+import android.graphics.drawable.Icon;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,4 +32,5 @@ class SectionPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 4;
     }
+
 }
