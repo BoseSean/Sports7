@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.team7.sports.R;
+
 
 public class FriendFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package org.team7.sports;
+package org.team7.sports.model;
 
 /**
  * Proudly created by zhangxinye on 5/10/17.
