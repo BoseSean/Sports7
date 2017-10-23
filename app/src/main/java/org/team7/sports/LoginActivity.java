@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: add exception handlling on null input of each fields
-                // TODO: add validation and handle invalide
+                // TODO: add validation and handle invalid
                 String email = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
                 LoginProgress.setTitle(R.string.registering);
