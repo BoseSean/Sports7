@@ -1,12 +1,28 @@
 package org.team7.sports;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.team7.sports.model.Message;
+
+import java.lang.invoke.MethodHandle;
 
 
 /**
@@ -16,7 +32,11 @@ public class MessageFragment extends Fragment {
 
 
     private View mainView;
-    private RecyclerView messageView;
+    private RecyclerView messageList;
+    private DatabaseReference messagesDatabase;
+    private DatabaseReference accountsDatabase;
+    private FirebaseAuth mAuth;
+    private String current_user_id;
 
     public MessageFragment() {
         // Required empty public constructor
@@ -28,10 +48,71 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
-        messageView = (RecyclerView) mainView.findViewById(R.id.message_list);
+        messageList = (RecyclerView) mainView.findViewById(R.id.message_list);
+        messageList.setHasFixedSize(true);
+        messageList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mAuth = FirebaseAuth.getInstance();
+        current_user_id = mAuth.getCurrentUser().getUid();
 
+        messagesDatabase = FirebaseDatabase.getInstance().getReference().child("Chats").child(current_user_id);
+        accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         return inflater.inflate(R.layout.fragment_message, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseRecyclerAdapter<Message, MessagesViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, MessagesViewHolder>(
+                Message.class,
+                R.layout.messages_single_message,
+                MessagesViewHolder.class,
+                messagesDatabase
+        ) {
+            @Override
+            protected void populateViewHolder(final MessagesViewHolder viewHolder, Message message, int position) {
+                final String message_sender_id = getRef(position).getKey();
+                messagesDatabase.child(message_sender_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String userName = dataSnapshot.child("name").getValue().toString();
+                        Log.d("snapshot", dataSnapshot.toString());
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        };
+        messageList.setAdapter(messagesRecyclerViewAdapter);
+    }
+
+
+    public static class MessagesViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+
+        public MessagesViewHolder(View itemView) {
+            super(itemView);
+
+            mView = itemView;
+
+        }
+
+        public void setMessage(String message) {
+
+            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            userNameView.setText(message);
+
+        }
     }
 
 }

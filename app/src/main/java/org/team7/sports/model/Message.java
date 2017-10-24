@@ -5,7 +5,7 @@ package org.team7.sports.model;
  */
 
 public class Message {
-    private String message, type;
+    private String message;
     private long  time;
     private boolean seen;
 
@@ -17,7 +17,6 @@ public class Message {
 
     public Message(String message, String type, long time, boolean seen) {
         this.message = message;
-        this.type = type;
         this.time = time;
         this.seen = seen;
     }
@@ -40,14 +39,6 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public long getTime() {
