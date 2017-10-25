@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.team7.sports.model.Message;
@@ -31,13 +33,13 @@ import java.lang.invoke.MethodHandle;
 public class MessageFragment extends Fragment {
 
 
+    protected static Query mChatQuery;
     private View mainView;
     private RecyclerView messageList;
     private DatabaseReference messagesDatabase;
     private DatabaseReference accountsDatabase;
     private FirebaseAuth mAuth;
     private String current_user_id;
-
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -63,34 +65,47 @@ public class MessageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerAdapter<Message, MessagesViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, MessagesViewHolder>(
-                Message.class,
-                R.layout.messages_single_message,
-                MessagesViewHolder.class,
-                messagesDatabase
-        ) {
-            @Override
-            protected void populateViewHolder(final MessagesViewHolder viewHolder, Message message, int position) {
-                final String message_sender_id = getRef(position).getKey();
-                messagesDatabase.child(message_sender_id).addValueEventListener(new ValueEventListener() {
+        mChatQuery = FirebaseDatabase.getInstance().getReference()
+                .child("Messages")
+                .child(current_user_id);
+        FirebaseRecyclerOptions messagesRecyclerOption = new FirebaseRecyclerOptions.Builder<Message>()
+                .setIndexedQuery(mChatQuery, )
+                .setLifecycleOwner(this)
+                .build();
+        FirebaseRecyclerAdapter<Message, MessagesViewHolder> messagesRecyclerViewAdapter =
+                new FirebaseRecyclerAdapter<Message, MessagesViewHolder>(Message.class, R.layout.messages_single_message, MessagesViewHolder.class, messagesDatabase) {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        final String userName = dataSnapshot.child("name").getValue().toString();
-                        Log.d("snapshot", dataSnapshot.toString());
-                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    public MessagesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        return null;
+                    }
+
+                    @Override
+                    protected void onBindViewHolder(MessagesViewHolder holder, int position, Message model) {
+
+                    }
+
+                    @Override
+                    protected void populateViewHolder(final MessagesViewHolder viewHolder, Message message, int position) {
+                        final String message_sender_id = getRef(position).getKey();
+                        messagesDatabase.child(message_sender_id).addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onClick(View view) {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final String userName = dataSnapshot.child("name").getValue().toString();
+                                Log.d("snapshot", dataSnapshot.toString());
+                                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
                             }
                         });
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
         };
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
@@ -106,7 +121,12 @@ public class MessageFragment extends Fragment {
             mView = itemView;
 
         }
+        public void setTime(String message) {
 
+            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            userNameView.setText(message);
+
+        }
         public void setMessage(String message) {
 
             TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);

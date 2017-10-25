@@ -7,31 +7,22 @@ package org.team7.sports.model;
 public class Message {
     private String message;
     private long  time;
-    private boolean seen;
 
-    private String from;
-
-    public Message(String from) {
-        this.from = from;
-    }
-
-    public Message(String message, String type, long time, boolean seen) {
-        this.message = message;
-        this.time = time;
-        this.seen = seen;
-    }
+//    private String from;
 
     public Message(){
 
     }
 
-    public String getFrom() {
-        return from;
+//    public Message(String from) {
+//        this.from = from;
+//    }
+
+    public Message(String message, long time) {
+        this.message = message;
+        this.time = time;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
-    }
 
     public String getMessage() {
         return message;
@@ -49,11 +40,4 @@ public class Message {
         this.time = time;
     }
 
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
 }
