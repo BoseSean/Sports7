@@ -23,7 +23,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.team7.sports.model.Chat;
-import org.team7.sports.model.Message;
 
 
 /**
@@ -95,8 +94,6 @@ public class MessageFragment extends Fragment {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d("json", dataSnapshot.toString());
-                                Log.d("ddd", "134");
                                 String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
                                 holder.setMessage(newMessage);
 
@@ -120,7 +117,14 @@ public class MessageFragment extends Fragment {
 
                             }
                         });
-
+                        holder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent profileIntent = new Intent(getActivity(), ChatActivity.class);
+                                profileIntent.putExtra("other_user_id", message_sender_id);
+                                startActivity(profileIntent);
+                            }
+                        });
                     }
 
         };
