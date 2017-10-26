@@ -1,7 +1,7 @@
 package org.team7.sports;
 
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,9 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.team7.sports.model.Chat;
 import org.team7.sports.model.Message;
-
-import java.lang.invoke.MethodHandle;
 
 
 /**
@@ -36,7 +35,7 @@ public class MessageFragment extends Fragment {
     protected static Query mChatQuery;
     private View mainView;
     private RecyclerView messageList;
-    private DatabaseReference messagesDatabase;
+    private DatabaseReference chatsDatabase;
     private DatabaseReference accountsDatabase;
     private FirebaseAuth mAuth;
     private String current_user_id;
@@ -48,6 +47,8 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
         messageList = (RecyclerView) mainView.findViewById(R.id.message_list);
@@ -57,7 +58,7 @@ public class MessageFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
 
-        messagesDatabase = FirebaseDatabase.getInstance().getReference().child("Chats").child(current_user_id);
+        chatsDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         return inflater.inflate(R.layout.fragment_message, container, false);
     }
@@ -65,36 +66,48 @@ public class MessageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mChatQuery = FirebaseDatabase.getInstance().getReference()
-                .child("Messages")
-                .child(current_user_id);
-        FirebaseRecyclerOptions messagesRecyclerOption = new FirebaseRecyclerOptions.Builder<Message>()
-                .setIndexedQuery(mChatQuery, )
+        mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
+        FirebaseRecyclerOptions chatsRecyclerOptions = new FirebaseRecyclerOptions.Builder<Chat>()
+                .setQuery(mChatQuery, Chat.class)
                 .setLifecycleOwner(this)
                 .build();
-        FirebaseRecyclerAdapter<Message, MessagesViewHolder> messagesRecyclerViewAdapter =
-                new FirebaseRecyclerAdapter<Message, MessagesViewHolder>(Message.class, R.layout.messages_single_message, MessagesViewHolder.class, messagesDatabase) {
+        FirebaseRecyclerAdapter<Chat, ChatsViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatsViewHolder>(chatsRecyclerOptions) {
                     @Override
-                    public MessagesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                        return null;
+                    public ChatsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.messages_single_chat, parent, false);
+                        return new ChatsViewHolder(view);
                     }
 
                     @Override
-                    protected void onBindViewHolder(MessagesViewHolder holder, int position, Message model) {
+                    protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
 
-                    }
-
-                    @Override
-                    protected void populateViewHolder(final MessagesViewHolder viewHolder, Message message, int position) {
+                        holder.setMessage(model.getLatestMessage());
+//                        holder.setTime(model.getLastTime().toString());
                         final String message_sender_id = getRef(position).getKey();
-                        messagesDatabase.child(message_sender_id).addValueEventListener(new ValueEventListener() {
+
+                        DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
+                        senderDatabase.keepSynced(true);
+
+
+                        senderDatabase.addValueEventListener(new ValueEventListener() {
+
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                final String userName = dataSnapshot.child("name").getValue().toString();
-                                Log.d("snapshot", dataSnapshot.toString());
-                                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                Log.d("json", dataSnapshot.toString());
+
+                                String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
+                                holder.setMessage(newMessage);
+
+                                String senderID = dataSnapshot.getKey();
+                                accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
                                     @Override
-                                    public void onClick(View view) {
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        holder.setSenderName(dataSnapshot.child("name").getValue().toString());
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
                                     }
                                 });
@@ -105,21 +118,28 @@ public class MessageFragment extends Fragment {
 
                             }
                         });
+
                     }
+
         };
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
 
 
-    public static class MessagesViewHolder extends RecyclerView.ViewHolder {
+    public static class ChatsViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
 
-        public MessagesViewHolder(View itemView) {
+        public ChatsViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
 
+        }
+
+        public void setSenderName(String name) {
+            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            userNameView.setText(name);
         }
         public void setTime(String message) {
 
@@ -129,7 +149,7 @@ public class MessageFragment extends Fragment {
         }
         public void setMessage(String message) {
 
-            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_message);
             userNameView.setText(message);
 
         }
