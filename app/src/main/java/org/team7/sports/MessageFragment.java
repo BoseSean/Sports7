@@ -54,23 +54,19 @@ public class MessageFragment extends Fragment {
         messageList.setHasFixedSize(true);
         messageList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        TextView text = mainView.findViewById(R.id.textView3);
-        text.setText("hello");
-        Log.d("ddd", text.getText().toString());
-
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
 
         chatsDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        return inflater.inflate(R.layout.fragment_message, container, false);
+//        return inflater.inflate(R.layout.fragment_message, container, false);
+        return mainView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        TextView text = mainView.findViewById(R.id.textView3);
-        text.setText("hello");
+
         mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
         FirebaseRecyclerOptions chatsRecyclerOptions = new FirebaseRecyclerOptions.Builder<Chat>()
                 .setQuery(mChatQuery, Chat.class)
@@ -108,7 +104,8 @@ public class MessageFragment extends Fragment {
                                 accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        holder.setSenderName(dataSnapshot.child("name").getValue().toString());
+                                        Log.d("json2", dataSnapshot.toString());
+                                        holder.setSenderName(dataSnapshot.getValue().toString());
                                     }
 
                                     @Override
