@@ -6,8 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,42 +22,41 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolBar;
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
-
     private TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: add internet checking
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Authentication
         mAuth = FirebaseAuth.getInstance();
 
-        mainToolBar = (Toolbar) findViewById(R.id.main_tool_bar);
+        mainToolBar = findViewById(R.id.main_tool_bar);
 
         // TODO: change to UserName/ProfileImage or both
         mainToolBar.setTitle("Username");
         setSupportActionBar(mainToolBar);
 
-
-
         // Tabs
-        viewPager = (ViewPager) findViewById(R.id.main_tabs);
+        viewPager = findViewById(R.id.main_tabs);
         sectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(sectionPagerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.main_pager_bar);
+        tabLayout = findViewById(R.id.main_pager_bar);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.pager_message);
         tabLayout.getTabAt(1).setIcon(R.drawable.pager_game);
         tabLayout.getTabAt(2).setIcon(R.drawable.pager_team);
         tabLayout.getTabAt(3).setIcon(R.drawable.pager_friend);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentuUser = mAuth.getCurrentUser();
-        if (currentuUser == null) {
-            // User is signed in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {  // user is NOT signed in
             toStartActivity();
         }
     }
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toStartActivity(){
-        Intent startIntent = new Intent( MainActivity.this, StartActivity.class);
+        Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(startIntent);
         finish();
     }

@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: add validation and handle invalid
                 String email = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
-                LoginProgress.setTitle(R.string.registering);
+                LoginProgress.setTitle(R.string.login);
                 LoginProgress.setCanceledOnTouchOutside(false);
                 LoginProgress.show();
                 loginUser(email, password);
@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                             Intent mainIntent = new Intent( LoginActivity.this, MainActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(mainIntent);
-
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this,R.string.login_failed, Toast.LENGTH_LONG).show();

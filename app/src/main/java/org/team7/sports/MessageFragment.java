@@ -106,9 +106,7 @@ public class MessageFragment extends Fragment {
                                     }
 
                                     @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
+                                    public void onCancelled(DatabaseError databaseError) {}
                                 });
                             }
 
