@@ -31,7 +31,7 @@ import org.team7.sports.model.Chat;
 public class MessageFragment extends Fragment {
 
 
-    protected static Query mChatQuery;
+    protected Query mChatQuery;
     private View mainView;
     private RecyclerView messageList;
     private DatabaseReference chatsDatabase;
@@ -76,7 +76,6 @@ public class MessageFragment extends Fragment {
                     public ChatsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                         View view = LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.messages_single_chat, parent, false);
-                        Log.d("ddd", "79");
                         return new ChatsViewHolder(view);
                     }
 
@@ -87,8 +86,7 @@ public class MessageFragment extends Fragment {
                         final String message_sender_id = getRef(position).getKey();
 
                         DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
-//                        senderDatabase.keepSynced(true);
-                        Log.d("ddd", "134");
+                        senderDatabase.keepSynced(true);
 
                         senderDatabase.addValueEventListener(new ValueEventListener() {
 
@@ -138,24 +136,23 @@ public class MessageFragment extends Fragment {
 
         public ChatsViewHolder(View itemView) {
             super(itemView);
-            Log.d("ddd", "134");
             mView = itemView;
 
         }
 
         public void setSenderName(String name) {
-            TextView userNameView = mView.findViewById(R.id.message_single_name);
+            TextView userNameView = mView.findViewById(R.id.chats_single_name);
             userNameView.setText(name);
         }
         public void setTime(String message) {
 
-            TextView userNameView = mView.findViewById(R.id.message_single_name);
+            TextView userNameView = mView.findViewById(R.id.chats_single_name);
             userNameView.setText(message);
 
         }
         public void setMessage(String message) {
 
-            TextView userNameView = mView.findViewById(R.id.message_single_message);
+            TextView userNameView = mView.findViewById(R.id.chats_single_message);
             userNameView.setText(message);
 
         }

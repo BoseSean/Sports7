@@ -6,6 +6,7 @@ package org.team7.sports.model;
 
 public class Message {
     private String message;
+    private String sender;
     private long  time;
 
 //    private String from;
@@ -18,8 +19,9 @@ public class Message {
 //        this.from = from;
 //    }
 
-    public Message(String message, long time) {
+    public Message(String message, String sender, long time) {
         this.message = message;
+        this.sender = sender;
         this.time = time;
     }
 
@@ -40,4 +42,11 @@ public class Message {
         this.time = time;
     }
 
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
 }

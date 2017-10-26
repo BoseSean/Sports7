@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 <!--TODO: Add timestamp and -->
     <ImageView
-        android:id="@+id/message_single_image"
+        android:id="@+id/chats_single_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -14,23 +14,23 @@
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
     <TextView
-        android:id="@+id/message_single_name"
+        android:id="@+id/chats_single_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/message_single_image"
-        android:layout_toEndOf="@+id/message_single_image"
-        android:layout_toRightOf="@+id/message_single_image"
+        android:layout_alignTop="@+id/chats_single_image"
+        android:layout_toEndOf="@+id/chats_single_image"
+        android:layout_toRightOf="@+id/chats_single_image"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/message_single_message"
+        android:id="@+id/chats_single_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/message_single_image"
-        android:layout_alignLeft="@+id/message_single_name"
-        android:layout_alignStart="@+id/message_single_name"
+        android:layout_alignBottom="@+id/chats_single_image"
+        android:layout_alignLeft="@+id/chats_single_name"
+        android:layout_alignStart="@+id/chats_single_name"
         android:text="TextView"
         android:textSize="16sp" />
 
