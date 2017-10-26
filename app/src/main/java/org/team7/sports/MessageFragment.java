@@ -45,15 +45,18 @@ public class MessageFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
-        messageList = (RecyclerView) mainView.findViewById(R.id.message_list);
+        messageList = (RecyclerView) mainView.findViewById(R.id.chat_list);
         messageList.setHasFixedSize(true);
         messageList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        TextView text = mainView.findViewById(R.id.textView3);
+        text.setText("hello");
+        Log.d("ddd", text.getText().toString());
 
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
@@ -66,16 +69,19 @@ public class MessageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        TextView text = mainView.findViewById(R.id.textView3);
+        text.setText("hello");
         mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
         FirebaseRecyclerOptions chatsRecyclerOptions = new FirebaseRecyclerOptions.Builder<Chat>()
                 .setQuery(mChatQuery, Chat.class)
                 .setLifecycleOwner(this)
                 .build();
-        FirebaseRecyclerAdapter<Chat, ChatsViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatsViewHolder>(chatsRecyclerOptions) {
+        FirebaseRecyclerAdapter<Chat, ChatsViewHolder> chatsRecyclerViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatsViewHolder>(chatsRecyclerOptions) {
                     @Override
                     public ChatsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                         View view = LayoutInflater.from(parent.getContext())
                                 .inflate(R.layout.messages_single_chat, parent, false);
+                        Log.d("ddd", "79");
                         return new ChatsViewHolder(view);
                     }
 
@@ -83,19 +89,18 @@ public class MessageFragment extends Fragment {
                     protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
 
                         holder.setMessage(model.getLatestMessage());
-//                        holder.setTime(model.getLastTime().toString());
                         final String message_sender_id = getRef(position).getKey();
 
                         DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
-                        senderDatabase.keepSynced(true);
-
+//                        senderDatabase.keepSynced(true);
+                        Log.d("ddd", "134");
 
                         senderDatabase.addValueEventListener(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Log.d("json", dataSnapshot.toString());
-
+                                Log.d("ddd", "134");
                                 String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
                                 holder.setMessage(newMessage);
 
@@ -122,34 +127,34 @@ public class MessageFragment extends Fragment {
                     }
 
         };
-        messageList.setAdapter(messagesRecyclerViewAdapter);
+        messageList.setAdapter(chatsRecyclerViewAdapter);
     }
 
 
     public static class ChatsViewHolder extends RecyclerView.ViewHolder {
 
-        View mView;
+        public View mView;
 
         public ChatsViewHolder(View itemView) {
             super(itemView);
-
+            Log.d("ddd", "134");
             mView = itemView;
 
         }
 
         public void setSenderName(String name) {
-            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            TextView userNameView = mView.findViewById(R.id.message_single_name);
             userNameView.setText(name);
         }
         public void setTime(String message) {
 
-            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_name);
+            TextView userNameView = mView.findViewById(R.id.message_single_name);
             userNameView.setText(message);
 
         }
         public void setMessage(String message) {
 
-            TextView userNameView = (TextView) mView.findViewById(R.id.message_single_message);
+            TextView userNameView = mView.findViewById(R.id.message_single_message);
             userNameView.setText(message);
 
         }

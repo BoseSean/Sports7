@@ -17,14 +17,26 @@ class SectionPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new MessageFragment();
             case 1:
-                return new GameFragment();
+                return new MessageFragment();
             case 2:
-                return new TeamFragment();
+                return new MessageFragment();
             case 3:
-                return new FriendFragment();
+                return new MessageFragment();
             default:
                 return null;
         }
+//      switch (position){
+//            case 0:
+//                return new MessageFragment();
+//            case 1:
+//                return new GameFragment();
+//            case 2:
+//                return new TeamFragment();
+//            case 3:
+//                return new FriendFragment();
+//            default:
+//                return null;
+//        }
     }
 
     @Override
