@@ -66,6 +66,7 @@ public class MessageFragment extends Fragment {
         super.onStart();
 
         mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
+        mChatQuery.keepSynced(true);
         FirebaseRecyclerOptions chatsRecyclerOptions = new FirebaseRecyclerOptions.Builder<Chat>()
                 .setQuery(mChatQuery, Chat.class)
                 .setLifecycleOwner(this)

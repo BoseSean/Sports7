@@ -79,7 +79,9 @@ public class ChatActivity extends AppCompatActivity {
         });
         messageList = findViewById(R.id.chat_messages_list);
         messageList.setHasFixedSize(true);
-        messageList.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
+        LinearLayoutManager messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        messageLinearLayoutManager.setReverseLayout(true);
+        messageList.setLayoutManager(messageLinearLayoutManager);
 
         thatUserId = getIntent().getStringExtra("that_user_id");
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
