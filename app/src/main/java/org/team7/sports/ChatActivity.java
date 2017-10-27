@@ -18,9 +18,12 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import org.team7.sports.model.Message;
 
@@ -38,6 +41,8 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference thatUserChatDatabase;
     private DatabaseReference thisUserChatDatabase;
     private DatabaseReference chatDatabase;
+
+    private DatabaseReference accountsDatabase;
 
     private RecyclerView messageList;
     private Toolbar mainToolBar;
@@ -83,9 +88,11 @@ public class ChatActivity extends AppCompatActivity {
         thisUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thisUserId).child(thatUserId);
         thatUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thatUserId).child(thisUserId);
         chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
+        thisUserChatDatabase.keepSynced(true);
+        thatUserChatDatabase.keepSynced(true);
+        chatDatabase.keepSynced(true);
 
-
-
+        accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     @Override
@@ -106,8 +113,33 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(MessagesViewAdapter holder, int position, Message model) {
+            protected void onBindViewHolder(final MessagesViewAdapter holder, int position, Message model) {
                 holder.setMessage(model.getMessage());
+                if (model.getSender().equals(thisUserId)) {
+                    accountsDatabase.child(thisUserId).child("name").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            holder.setSenderName(dataSnapshot.getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                } else if ((model.getSender().equals(thatUserId))) {
+                    accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            holder.setSenderName(dataSnapshot.getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
 
             }
         };
@@ -127,13 +159,30 @@ public class ChatActivity extends AppCompatActivity {
         messageMap.put("message", message);
         messageMap.put("sender", thisUserId);
         messageMap.put("time", ServerValue.TIMESTAMP);
-        chatDatabase.push().setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        HashMap messageSnapMap = new HashMap();
+        messageSnapMap.put("latestMessage", message);
+        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+
+
+        chatDatabase.push().setValue(messageMap);
+
+//        HashMap updateMap = new HashMap();
+//        updateMap.put(chatDatabase, messageMap);
+//        updateMap.put(thisUserChatDatabase, messageSnapMap);
+//        updateMap.put(thatUserChatDatabase, messageSnapMap);
+
+        messageSnapMap.put("latestMessage", message);
+        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+        thisUserChatDatabase.updateChildren(messageSnapMap);
+        thisUserChatDatabase.setValue(messageSnapMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
+                if (task.isComplete()) {
+                    chatMessageInput.setText("");
+                }
             }
         });
-
 
     }
 

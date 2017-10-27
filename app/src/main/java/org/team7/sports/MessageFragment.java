@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,6 @@ public class MessageFragment extends Fragment {
 
         chatsDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-//        return inflater.inflate(R.layout.fragment_message, container, false);
         return mainView;
     }
 
@@ -99,7 +97,6 @@ public class MessageFragment extends Fragment {
                                 accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        Log.d("json2", dataSnapshot.toString());
                                         holder.setSenderName(dataSnapshot.getValue().toString());
                                     }
 
@@ -117,7 +114,7 @@ public class MessageFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 Intent profileIntent = new Intent(getActivity(), ChatActivity.class);
-                                profileIntent.putExtra("other_user_id", message_sender_id);
+                                profileIntent.putExtra("that_user_id", message_sender_id);
                                 startActivity(profileIntent);
                             }
                         });
