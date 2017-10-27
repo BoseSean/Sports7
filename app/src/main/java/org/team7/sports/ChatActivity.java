@@ -1,31 +1,51 @@
 package org.team7.sports;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 
 import org.team7.sports.model.Message;
 
+import java.util.HashMap;
+
 public class ChatActivity extends AppCompatActivity {
 
-    private static final DatabaseReference messageDatabase =
+    private static final DatabaseReference messageBaseDatabase =
             FirebaseDatabase.getInstance().getReference().child("ChatThreads");
     private FirebaseAuth mAuth;
-    private Query mMessageQuery;
-    private String otherUserId;
+
+    private String thatUserId;
+    private String thisUserId;
+    private String mCurrentChatThread;
+    private DatabaseReference thatUserChatDatabase;
+    private DatabaseReference thisUserChatDatabase;
+    private DatabaseReference chatDatabase;
+
     private RecyclerView messageList;
     private Toolbar mainToolBar;
-    private String mCurrentUserId;
-    private String mCurrentChatThread;
+    private ImageButton sendBtn;
+    private EditText chatMessageInput;
+
+    public ChatActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,38 +53,60 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-
-        otherUserId = getIntent().getStringExtra("other_user_id");
+        chatMessageInput = (EditText) findViewById(R.id.chat_message_input);
+        sendBtn = (ImageButton) findViewById(R.id.chat_send_btn);
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = chatMessageInput.getText().toString().trim();
+                if (!message.equals("")) {
+                    send_message(message);
+                }
+            }
+        });
         messageList = findViewById(R.id.chat_messages_list);
         messageList.setHasFixedSize(true);
         messageList.setLayoutManager(new LinearLayoutManager(ChatActivity.this));
 
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUserId = mAuth.getCurrentUser().getUid();
-        mCurrentChatThread = hashChatThread(otherUserId, mCurrentUserId);
+        thatUserId = getIntent().getStringExtra("that_user_id");
+        thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
+
+        thisUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thisUserId).child(thatUserId);
+        thatUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thatUserId).child(thisUserId);
+        chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
+
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mMessageQuery = messageDatabase.child(mCurrentChatThread);
         FirebaseRecyclerOptions<Message> options =
                 new FirebaseRecyclerOptions.Builder<Message>()
-                        .setQuery(mMessageQuery, Message.class)
+                        .setQuery(chatDatabase, Message.class)
                         .setLifecycleOwner(this)
                         .build();
-        FirebaseRecyclerAdapter<Message, MessagesViewAddapter> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, MessagesViewAddapter>(options) {
+        FirebaseRecyclerAdapter<Message, MessagesViewAdapter> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, MessagesViewAdapter>(options) {
 
             @Override
-            public MessagesViewAddapter onCreateViewHolder(ViewGroup parent, int viewType) {
+            public MessagesViewAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.chat_single_message, parent, false);
-                return new MessagesViewAddapter(view);
+                return new MessagesViewAdapter(view);
             }
 
             @Override
-            protected void onBindViewHolder(MessagesViewAddapter holder, int position, Message model) {
+            protected void onBindViewHolder(MessagesViewAdapter holder, int position, Message model) {
                 holder.setMessage(model.getMessage());
 
             }
@@ -80,10 +122,25 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    public static class MessagesViewAddapter extends RecyclerView.ViewHolder {
+    private void send_message(String message) {
+        HashMap messageMap = new HashMap();
+        messageMap.put("message", message);
+        messageMap.put("sender", thisUserId);
+        messageMap.put("time", ServerValue.TIMESTAMP);
+        chatDatabase.push().setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+
+
+    }
+
+    public static class MessagesViewAdapter extends RecyclerView.ViewHolder {
         public View mView;
 
-        public MessagesViewAddapter(View itemView) {
+        public MessagesViewAdapter(View itemView) {
             super(itemView);
             mView = itemView;
         }
