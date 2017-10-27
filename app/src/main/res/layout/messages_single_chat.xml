@@ -20,7 +20,7 @@
         android:layout_alignTop="@+id/chats_single_image"
         android:layout_toEndOf="@+id/chats_single_image"
         android:layout_toRightOf="@+id/chats_single_image"
-        android:text="TextView"
+        android:text="TextVssssssiew..."
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 

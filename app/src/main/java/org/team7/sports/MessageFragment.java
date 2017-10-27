@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.lang3.StringUtils;
 import org.team7.sports.model.Chat;
 
 
@@ -137,18 +138,17 @@ public class MessageFragment extends Fragment {
 
         public void setSenderName(String name) {
             TextView userNameView = mView.findViewById(R.id.chats_single_name);
-            userNameView.setText(name);
+            userNameView.setText(StringUtils.abbreviate(name, 14));
         }
         public void setTime(String message) {
-
+            //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.chats_single_name);
             userNameView.setText(message);
 
         }
         public void setMessage(String message) {
-
             TextView userNameView = mView.findViewById(R.id.chats_single_message);
-            userNameView.setText(message);
+            userNameView.setText(StringUtils.abbreviate(message, 26));
 
         }
     }

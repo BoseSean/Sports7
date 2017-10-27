@@ -155,6 +155,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void send_message(String message) {
+
+        // TODO improve data consistency of pushing new messages
         HashMap messageMap = new HashMap();
         messageMap.put("message", message);
         messageMap.put("sender", thisUserId);
@@ -200,7 +202,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         public void setTime(String time) {
-
+            //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.message_time);
             userNameView.setText(time);
 

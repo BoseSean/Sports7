@@ -7,22 +7,22 @@
     android:layout_alignParentBottom="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:background="@android:color/holo_red_light"
+    android:background="@android:color/white"
     android:orientation="horizontal">
 
     <EditText
         android:id="@+id/chat_message_input"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="8"
         android:background="@android:color/white"
         android:ems="10"
         android:hint="Enter Message..."
-        android:inputType="textPersonName"
         android:paddingBottom="12dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="14dp" />
+        android:paddingTop="14dp"
+        android:scrollbars="vertical" />
 
     <ImageButton
         android:id="@+id/chat_send_btn"
