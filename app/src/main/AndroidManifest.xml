@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Proudly created by Team7 on October, 2017.
 
     MMP""MM""YMM `7MM"""YMM        db      `7MMM.     ,MMF'
@@ -12,7 +11,6 @@
                                                             A'
                                                            A'
 -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.team7.sports">
 
@@ -32,7 +30,11 @@
         </activity>
         <activity android:name=".StartActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

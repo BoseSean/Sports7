@@ -1,6 +1,5 @@
 package org.team7.sports;
 
-import android.graphics.drawable.Icon;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,7 +13,8 @@ class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+
+      switch (position){
             case 0:
                 return new MessageFragment();
             case 1:

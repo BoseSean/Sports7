@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<!--TODO: Add timestamp and -->
+    <ImageView
+        android:id="@+id/chats_single_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+    <TextView
+        android:id="@+id/chats_single_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/chats_single_image"
+        android:layout_toEndOf="@+id/chats_single_image"
+        android:layout_toRightOf="@+id/chats_single_image"
+        android:text=" s "
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/chats_single_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/chats_single_image"
+        android:layout_alignLeft="@+id/chats_single_name"
+        android:layout_alignStart="@+id/chats_single_name"
+        android:text=" s  "
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/chats_single_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/chats_single_name"
+        android:layout_alignBottom="@+id/chats_single_name"
+        android:layout_alignParentEnd="true"
+        android:text="TextView" />
+
+</RelativeLayout>

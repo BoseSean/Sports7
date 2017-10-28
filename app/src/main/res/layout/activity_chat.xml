@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.team7.sports.LoginActivity">
+
+    <include
+        android:id="@+id/chat_tool_bar"
+        layout="@layout/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </include>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_pager_bar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/chat_tool_bar"></android.support.v7.widget.RecyclerView>
+    <!-- A horizontal line between the chatbox and RecyclerView -->
+    <!--<View-->
+    <!--android:id="@+id/split_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="2dp"-->
+    <!--android:layout_above="@+id/main_pager_bar"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:background="#dfdfdf" />-->
+    <include
+        android:id="@+id/main_pager_bar"
+        layout="@layout/app_message_input_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="visible">
+
+    </include>
+</RelativeLayout>
