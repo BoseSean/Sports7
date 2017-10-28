@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.apache.commons.lang3.StringUtils;
 import org.team7.sports.model.Chat;
 
+import static org.team7.sports.Util.TimeUtil.getTimeAgo;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +83,7 @@ public class MessageFragment extends Fragment {
 
                     @Override
                     protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
-
+                        holder.setTime(model.getLastTime());
                         holder.setMessage(model.getLatestMessage());
                         final String message_sender_id = getRef(position).getKey();
 
@@ -141,10 +143,11 @@ public class MessageFragment extends Fragment {
             TextView userNameView = mView.findViewById(R.id.chats_single_name);
             userNameView.setText(StringUtils.abbreviate(name, 14));
         }
-        public void setTime(String message) {
+
+        public void setTime(long time) {
             //TODO humanize time print
-            TextView userNameView = mView.findViewById(R.id.chats_single_name);
-            userNameView.setText(message);
+            TextView userNameView = mView.findViewById(R.id.chats_single_time);
+            userNameView.setText(getTimeAgo(time));
 
         }
         public void setMessage(String message) {

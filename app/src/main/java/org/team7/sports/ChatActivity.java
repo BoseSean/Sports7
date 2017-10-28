@@ -29,6 +29,8 @@ import org.team7.sports.model.Message;
 
 import java.util.HashMap;
 
+import static org.team7.sports.Util.TimeUtil.getTimeAgo;
+
 public class ChatActivity extends AppCompatActivity {
 
     private static final DatabaseReference messageBaseDatabase =
@@ -82,6 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         messageList.setHasFixedSize(true);
         LinearLayoutManager messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         messageLinearLayoutManager.setReverseLayout(true);
+        messageLinearLayoutManager.setStackFromEnd(true);
         messageList.setLayoutManager(messageLinearLayoutManager);
 
         thatUserId = getIntent().getStringExtra("that_user_id");
@@ -118,6 +121,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(final MessagesViewAdapter holder, int position, Message model) {
                 holder.setMessage(model.getMessage());
+                holder.setTime(model.getTime());
                 if (model.getSender().equals(thisUserId)) {
                     accountsDatabase.child(thisUserId).child("name").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -204,10 +208,10 @@ public class ChatActivity extends AppCompatActivity {
             userNameView.setText(name);
         }
 
-        public void setTime(String time) {
+        public void setTime(long time) {
             //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.message_time);
-            userNameView.setText(time);
+            userNameView.setText(getTimeAgo(time));
 
         }
 

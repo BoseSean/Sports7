@@ -20,7 +20,7 @@
         android:layout_alignTop="@+id/chats_single_image"
         android:layout_toEndOf="@+id/chats_single_image"
         android:layout_toRightOf="@+id/chats_single_image"
-        android:text="  "
+        android:text=" s "
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -31,7 +31,16 @@
         android:layout_alignBottom="@+id/chats_single_image"
         android:layout_alignLeft="@+id/chats_single_name"
         android:layout_alignStart="@+id/chats_single_name"
-        android:text="   "
+        android:text=" s  "
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/chats_single_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/chats_single_name"
+        android:layout_alignBottom="@+id/chats_single_name"
+        android:layout_alignParentEnd="true"
+        android:text="TextView" />
 
 </RelativeLayout>
