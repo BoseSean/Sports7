@@ -35,7 +35,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private static final DatabaseReference messageBaseDatabase =
             FirebaseDatabase.getInstance().getReference().child("ChatThreads");
-    private FirebaseAuth mAuth;
 
     private String thatUserId;
     private String thisUserId;
@@ -47,9 +46,10 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference accountsDatabase;
 
     private RecyclerView messageList;
-    private Toolbar mainToolBar;
     private ImageButton sendBtn;
     private EditText chatMessageInput;
+
+    private int count = 0;
 
     public ChatActivity() {
     }
@@ -109,47 +109,60 @@ public class ChatActivity extends AppCompatActivity {
                         .setQuery(chatDatabase, Message.class)
                         .setLifecycleOwner(this)
                         .build();
-        FirebaseRecyclerAdapter<Message, MessagesViewAdapter> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, MessagesViewAdapter>(options) {
+        FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
 
             @Override
-            public MessagesViewAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_message_received, parent, false);
-                return new MessagesViewAdapter(view);
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view;
+                count++;
+                if (count % 2 == 0) {
+                    view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.item_message_received, parent, false);
+                    return new ReceiveMessagesViewAdapter(view);
+                } else {
+                    view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.item_message_sent, parent, false);
+                    return new SendMessagesViewAdapter(view);
+                }
             }
 
             @Override
-            protected void onBindViewHolder(final MessagesViewAdapter holder, int position, Message model) {
-                holder.setMessage(model.getMessage());
-                holder.setTime(model.getTime());
-                if (model.getSender().equals(thisUserId)) {
-                    accountsDatabase.child(thisUserId).child("name").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            holder.setSenderName(dataSnapshot.getValue().toString());
-                        }
+            protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, Message model) {
+                if (holder.getClass() == SendMessagesViewAdapter.class) {
+                    ((SendMessagesViewAdapter) holder).setMessage(model.getMessage());
+                    ((SendMessagesViewAdapter) holder).setTime(model.getTime());
+                } else {
+                    ((ReceiveMessagesViewAdapter) holder).setMessage(model.getMessage());
+                    ((ReceiveMessagesViewAdapter) holder).setTime(model.getTime());
+                    if (model.getSender().equals(thisUserId)) {
+                        accountsDatabase.child(thisUserId).child("name").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                            }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
-                } else if ((model.getSender().equals(thatUserId))) {
-                    accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            holder.setSenderName(dataSnapshot.getValue().toString());
-                        }
+                            }
+                        });
+                    } else if ((model.getSender().equals(thatUserId))) {
+                        accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                            }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
-
             }
         };
+
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
 
@@ -191,13 +204,38 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    public static class MessagesViewAdapter extends RecyclerView.ViewHolder {
+    public static class SendMessagesViewAdapter extends RecyclerView.ViewHolder {
         public View mView;
 
-        public MessagesViewAdapter(View itemView) {
+        public SendMessagesViewAdapter(View itemView) {
             super(itemView);
             mView = itemView;
         }
+
+        // TODO public void setProfile()
+
+        public void setTime(long time) {
+            //TODO humanize time print
+            TextView userNameView = mView.findViewById(R.id.text_message_time);
+            userNameView.setText(getTimeAgo(time));
+        }
+
+        public void setMessage(String message) {
+            TextView userNameView = mView.findViewById(R.id.text_message_body);
+            userNameView.setText(message);
+
+        }
+    }
+
+    public static class ReceiveMessagesViewAdapter extends RecyclerView.ViewHolder {
+        public View mView;
+
+        public ReceiveMessagesViewAdapter(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        // TODO public void setProfile()
 
         public void setSenderName(String name) {
             TextView userNameView = mView.findViewById(R.id.text_message_name);
