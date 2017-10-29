@@ -9,3 +9,6 @@ TODO figure out how to change menu bar
 TODO design relation for games.
 
 ## Messages
+
+## Bugs
+LatestMessage updates ONLY ONE side
