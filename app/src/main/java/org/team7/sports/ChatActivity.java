@@ -57,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_chat);  // modify here
+        setContentView(R.layout.activity_chat);  // modify here
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_tool_bar);
 
         setSupportActionBar(toolbar);
@@ -114,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public MessagesViewAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.chat_single_message, parent, false);
+                        .inflate(R.layout.item_message_received, parent, false);
                 return new MessagesViewAdapter(view);
             }
 
@@ -153,6 +153,7 @@ public class ChatActivity extends AppCompatActivity {
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
 
+    // smaller uid goes first
     private String hashChatThread(String uid1, String uid2) {
         if (uid1.compareTo(uid2) < 0) {
             return uid1 + "+" + uid2;
@@ -199,20 +200,19 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         public void setSenderName(String name) {
-            TextView userNameView = mView.findViewById(R.id.message_sender_name);
+            TextView userNameView = mView.findViewById(R.id.text_message_name);
             userNameView.setText(name);
         }
 
         public void setTime(long time) {
             //TODO humanize time print
-            TextView userNameView = mView.findViewById(R.id.message_time);
+            TextView userNameView = mView.findViewById(R.id.text_message_time);
             userNameView.setText(getTimeAgo(time));
 
         }
 
         public void setMessage(String message) {
-
-            TextView userNameView = mView.findViewById(R.id.message_message_content);
+            TextView userNameView = mView.findViewById(R.id.text_message_body);
             userNameView.setText(message);
 
         }

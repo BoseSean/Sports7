@@ -18,7 +18,7 @@
         android:layout_weight="8"
         android:background="@android:color/white"
         android:ems="10"
-        android:hint="Enter Message..."
+        android:hint="Enter message..."
         android:paddingBottom="12dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
