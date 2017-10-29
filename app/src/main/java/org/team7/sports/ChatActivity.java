@@ -57,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+//        setContentView(R.layout.activity_chat);  // modify here
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_tool_bar);
 
         setSupportActionBar(toolbar);
@@ -175,11 +175,6 @@ public class ChatActivity extends AppCompatActivity {
 
 
         chatDatabase.push().setValue(messageMap);
-
-//        HashMap updateMap = new HashMap();
-//        updateMap.put(chatDatabase, messageMap);
-//        updateMap.put(thisUserChatDatabase, messageSnapMap);
-//        updateMap.put(thatUserChatDatabase, messageSnapMap);
 
         messageSnapMap.put("latestMessage", message);
         messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);

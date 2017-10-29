@@ -7,14 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
     private TabLayout tabLayout;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
         // Authentication
         mAuth = FirebaseAuth.getInstance();
 
-        mainToolBar = findViewById(R.id.main_tool_bar);
-
         // TODO: change to UserName/ProfileImage or both
-        mainToolBar.setTitle("Username");
+        mainToolBar = findViewById(R.id.main_tool_bar);
+        setMainToolBarTitleAsUsername();  // ugly but I have to do this
         setSupportActionBar(mainToolBar);
 
         // Tabs
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {  // user is NOT signed in
+        if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
         }
     }
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.main_logout_btn){
+        if(item.getItemId() == R.id.main_logout_btn) {  // sign out, go back to StartActivity
             FirebaseAuth.getInstance().signOut();
             toStartActivity();
         }
@@ -82,5 +84,24 @@ public class MainActivity extends AppCompatActivity {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(startIntent);
         finish();
+    }
+
+    private void setMainToolBarTitleAsUsername() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users").child(mAuth.getCurrentUser().getUid()).child("name");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String username = dataSnapshot.getValue().toString();
+                mainToolBar.setTitle(username);
+                Log.i("Username", username);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

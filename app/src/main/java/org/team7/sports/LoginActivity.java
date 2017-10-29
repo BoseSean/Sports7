@@ -39,16 +39,24 @@ public class LoginActivity extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // TODO: add exception handlling on null input of each fields
                 // TODO: add validation and handle invalid
                 String email = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
-                LoginProgress.setTitle(R.string.login);
-                LoginProgress.setCanceledOnTouchOutside(false);
-                LoginProgress.show();
-                loginUser(email, password);
+                if (email.isEmpty()) Email.setError("Email cannot be empty");
+                else if (password.isEmpty()) Password.setError("Password cannot be empty");
+                else if (!isEmailValid(email)) Email.setError("Email is invalid");
+                else {
+                    LoginProgress.setTitle(R.string.login);
+                    LoginProgress.setCanceledOnTouchOutside(false);
+                    LoginProgress.show();
+                    loginUser(email, password);
+                }
             }
         });
+    }
+
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
     }
 
     private void loginUser(String email, String password){

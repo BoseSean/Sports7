@@ -1,6 +1,5 @@
 package org.team7.sports;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,8 +30,6 @@ import static org.team7.sports.Util.TimeUtil.getTimeAgo;
  * A simple {@link Fragment} subclass.
  */
 public class MessageFragment extends Fragment {
-
-
     protected Query mChatQuery;
     private View mainView;
     private RecyclerView messageList;
@@ -47,8 +44,6 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
         messageList = (RecyclerView) mainView.findViewById(R.id.chat_list);
@@ -130,7 +125,6 @@ public class MessageFragment extends Fragment {
 
 
     public static class ChatsViewHolder extends RecyclerView.ViewHolder {
-
         public View mView;
 
         public ChatsViewHolder(View itemView) {
