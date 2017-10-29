@@ -114,12 +114,12 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view;
-                count++;
-                if (count % 2 == 0) {
+                if (viewType == 0) {  // Message is from others
                     view = LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.item_message_received, parent, false);
                     return new ReceiveMessagesViewAdapter(view);
-                } else {
+                }
+                else {  // Message is from user themselves
                     view = LayoutInflater.from(parent.getContext())
                             .inflate(R.layout.item_message_sent, parent, false);
                     return new SendMessagesViewAdapter(view);
@@ -127,38 +127,37 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
+            public int getItemViewType(int position) {
+                Message message = getItem(position);
+                if (message.getSender().equals(thisUserId)) {
+                    return 1;  // ViewType: Message from user themselves
+                }
+                else return 0;  // ViewType: Message from others
+            }
+
+
+            @Override
             protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, Message model) {
                 if (holder.getClass() == SendMessagesViewAdapter.class) {
                     ((SendMessagesViewAdapter) holder).setMessage(model.getMessage());
                     ((SendMessagesViewAdapter) holder).setTime(model.getTime());
-                } else {
+                }
+                else {
                     ((ReceiveMessagesViewAdapter) holder).setMessage(model.getMessage());
                     ((ReceiveMessagesViewAdapter) holder).setTime(model.getTime());
-                    if (model.getSender().equals(thisUserId)) {
-                        accountsDatabase.child(thisUserId).child("name").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                    // below is to get the sender name, because sender name is not contained in Message object
+                    accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                        }
 
-                            }
-                        });
-                    } else if ((model.getSender().equals(thatUserId))) {
-                        accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
-                            }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         };
