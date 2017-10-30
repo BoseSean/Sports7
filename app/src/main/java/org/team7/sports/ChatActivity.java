@@ -83,7 +83,6 @@ public class ChatActivity extends AppCompatActivity {
         messageList = findViewById(R.id.chat_messages_list);
         messageList.setHasFixedSize(true);
         LinearLayoutManager messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
-        messageLinearLayoutManager.setReverseLayout(true);
         messageLinearLayoutManager.setStackFromEnd(true);
         messageList.setLayoutManager(messageLinearLayoutManager);
 
