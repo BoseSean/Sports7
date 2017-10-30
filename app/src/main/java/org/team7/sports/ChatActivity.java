@@ -39,9 +39,8 @@ public class ChatActivity extends AppCompatActivity {
     private String thatUserId;
     private String thisUserId;
     private String mCurrentChatThread;
-    private DatabaseReference thatUserChatDatabase;
-    private DatabaseReference thisUserChatDatabase;
     private DatabaseReference chatDatabase;
+    private DatabaseReference userChatDatabase;
 
     private DatabaseReference accountsDatabase;
 
@@ -89,12 +88,9 @@ public class ChatActivity extends AppCompatActivity {
         thatUserId = getIntent().getStringExtra("that_user_id");
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
-
-        thisUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thisUserId).child(thatUserId);
-        thatUserChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats").child(thatUserId).child(thisUserId);
+        // TODO
+        userChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats");
         chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
-        thisUserChatDatabase.keepSynced(true);
-        thatUserChatDatabase.keepSynced(true);
         chatDatabase.keepSynced(true);
 
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -180,18 +176,18 @@ public class ChatActivity extends AppCompatActivity {
         messageMap.put("message", message);
         messageMap.put("sender", thisUserId);
         messageMap.put("time", ServerValue.TIMESTAMP);
-
-        HashMap messageSnapMap = new HashMap();
-        messageSnapMap.put("latestMessage", message);
-        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
-
-
         chatDatabase.push().setValue(messageMap);
 
+        HashMap messageSnapMap = new HashMap();
+        HashMap userChatMap = new HashMap();
         messageSnapMap.put("latestMessage", message);
         messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
-        thisUserChatDatabase.updateChildren(messageSnapMap);
-        thisUserChatDatabase.setValue(messageSnapMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+
+        userChatMap.put(thisUserId + "/" + thatUserId, messageSnapMap);
+        userChatMap.put(thatUserId + "/" + thisUserId, messageSnapMap);
+
+        userChatDatabase.updateChildren(userChatMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isComplete()) {
@@ -199,6 +195,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 
