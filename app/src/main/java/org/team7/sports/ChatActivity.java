@@ -41,7 +41,6 @@ public class ChatActivity extends AppCompatActivity {
     private String mCurrentChatThread;
     private DatabaseReference chatDatabase;
     private DatabaseReference userChatDatabase;
-
     private DatabaseReference accountsDatabase;
 
     private RecyclerView messageList;
