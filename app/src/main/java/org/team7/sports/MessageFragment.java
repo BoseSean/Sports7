@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,6 @@ public class MessageFragment extends Fragment {
         }
 
         public void setTime(long time) {
-            //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.chats_single_time);
             userNameView.setText(getTimeAgo(time));
 
