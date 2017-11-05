@@ -1,14 +1,15 @@
 package org.team7.sports;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: change to UserName/ProfileImage or both
         mainToolBar = findViewById(R.id.main_tool_bar);
-        setMainToolBarTitleAsUsername();  // ugly but I have to do this
         setSupportActionBar(mainToolBar);
 
         // Tabs
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
+        } else {
+            setMainToolBarTitleAsUsername();
         }
     }
 
