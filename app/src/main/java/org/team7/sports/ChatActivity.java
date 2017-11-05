@@ -48,8 +48,6 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton sendBtn;
     private EditText chatMessageInput;
 
-    private int count = 0;
-
     public ChatActivity() {
     }
 
@@ -59,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);  // modify here
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_tool_bar);
 
+        // set up back button on toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

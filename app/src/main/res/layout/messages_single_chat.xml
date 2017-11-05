@@ -20,7 +20,6 @@
         android:layout_alignTop="@+id/chats_single_image"
         android:layout_toEndOf="@+id/chats_single_image"
         android:layout_toRightOf="@+id/chats_single_image"
-        android:text=" s "
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -31,7 +30,6 @@
         android:layout_alignBottom="@+id/chats_single_image"
         android:layout_alignLeft="@+id/chats_single_name"
         android:layout_alignStart="@+id/chats_single_name"
-        android:text=" s  "
         android:textSize="16sp" />
 
     <TextView
