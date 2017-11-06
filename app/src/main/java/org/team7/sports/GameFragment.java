@@ -47,9 +47,44 @@ public class GameFragment extends Fragment {
     }
 
 
-    public void onCreate() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mainView = inflater.inflate(R.layout.fragment_game, container, false);
+
+        mCreateGame = mainView.findViewById(R.id.create_new_game_B);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUse = mAuth.getCurrentUser();
+
+        gameList = mainView.findViewById(R.id.Game_RV);
+        gameList.setHasFixedSize(true);
+        gameList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
+        gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread");
+        return mainView;
+    }
+
+
+    @Override
+
+    public void onStart() {
+        super.onStart();
+
+        //mCreateGame= (Button)GameListViewHolder.gView.findViewById(R.id.create_new_game_B);
         gameQuery = FirebaseDatabase.getInstance().getReference().child("gameThread");
         gameQuery.keepSynced(true);
+
+
+        mCreateGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent create_game_intent = new Intent(getActivity(), CreateGameActivity.class);
+                startActivity(create_game_intent);
+            }
+        });
+
         FirebaseRecyclerOptions<Game> gameRecyclerOptions = new FirebaseRecyclerOptions.Builder<Game>()
                 .setQuery(gameQuery, Game.class)
                 .setLifecycleOwner(this)
@@ -64,11 +99,14 @@ public class GameFragment extends Fragment {
             }
 
 
+
             protected void onBindViewHolder(final GameListViewHolder holder, int position, Game model) {
                 holder.setGameName(model.getGameName());
                 holder.setSportType(model.getSportType());
                 final String thisGameName = model.getGameName();
+                final String thisGameId = model.getGameId();
 
+                Log.d("ddd", "onbind()");
                 DatabaseReference single_game_reference = gameDatabase.child(model.getGameId());
                 single_game_reference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -76,7 +114,9 @@ public class GameFragment extends Fragment {
                         String gameName = dataSnapshot.child("gameName").getValue().toString();
                         holder.setGameName(gameName);
                         String sportType = dataSnapshot.child("sportType").getValue().toString();
+
                         holder.setSportType(sportType);
+                        gameRecyclerViewAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -86,59 +126,26 @@ public class GameFragment extends Fragment {
                 });
 
 
+
                 holder.gView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent gameDetailIntent = new Intent(getActivity(), ViewGameActivity.class);
-                        gameDetailIntent.putExtra("this_game_name", thisGameName);
+                        gameDetailIntent.putExtra("this_game_id", thisGameId);
                         startActivity(gameDetailIntent);
                     }
                 });
             }
 
         };
+        Log.d("ddd", "onbind()");
         gameList.setAdapter(gameRecyclerViewAdapter);
-        Log.d("lol", "succeed?");
-        gameRecyclerViewAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mainView = inflater.inflate(R.layout.fragment_game, container, false);
-
-        gameList = mainView.findViewById(R.id.Game_RV);
-        gameList.setHasFixedSize(true);
-
-        gameList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCreateGame = mainView.findViewById(R.id.create_new_game_B);
-
-        mAuth = FirebaseAuth.getInstance();
-        currentUse = mAuth.getCurrentUser();
-
-        gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread");
-        return mainView;
-    }
 
 
-    @Override
-
-    public void onStart() {
-        super.onStart();
-
-        //mCreateGame= (Button)GameListViewHolder.gView.findViewById(R.id.create_new_game_B);
-
-        mCreateGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent create_game_intent = new Intent(getActivity(), CreateGameActivity.class);
-                startActivity(create_game_intent);
-            }
-        });
 
 
     }
+
 
 
     private static class GameListViewHolder extends RecyclerView.ViewHolder {
@@ -164,9 +171,6 @@ public class GameFragment extends Fragment {
             sportTypeView.setText(sType);
         }
     }
-
-
-
 
 
 }
