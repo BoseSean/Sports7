@@ -1,8 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.team7.sports.ViewGameActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/game_name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Game Name" />
+
+    <TextView
+        android:id="@+id/Sport_type_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/game_name_TV"
+        android:layout_alignStart="@+id/game_name_TV"
+        android:layout_below="@+id/game_name_TV"
+        android:layout_marginTop="19dp"
+        android:text="sport type" />
+
+    <TextView
+        android:id="@+id/Date_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Sport_type_TV"
+        android:layout_alignStart="@+id/Sport_type_TV"
+        android:layout_below="@+id/Sport_type_TV"
+        android:layout_marginTop="21dp"
+        android:text="Date is" />
+
+    <TextView
+        android:id="@+id/start_time_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Date_TV"
+        android:layout_alignStart="@+id/Date_TV"
+        android:layout_below="@+id/Date_TV"
+        android:layout_marginTop="21dp"
+        android:text="Starting time is" />
+
+    <TextView
+        android:id="@+id/Location_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/start_time_TV"
+        android:layout_alignStart="@+id/start_time_TV"
+        android:layout_below="@+id/start_time_TV"
+        android:layout_marginTop="19dp"
+        android:text="Location is" />
+
+    <TextView
+        android:id="@+id/host_name_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Location_TV"
+        android:layout_alignStart="@+id/Location_TV"
+        android:layout_below="@+id/Location_TV"
+        android:layout_marginTop="29dp"
+        android:text="host name is" />
+
+    <TextView
+        android:id="@+id/host_email_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/game_name_TV"
+        android:layout_alignStart="@+id/game_name_TV"
+        android:layout_below="@+id/host_name_TV"
+        android:layout_marginTop="26dp"
+        android:text="host email is" />
+
+    <Button
+        android:id="@+id/join_Game_B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/host_email_TV"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/host_email_TV"
+        android:layout_marginBottom="64dp"
+        android:text="Join" />
+
+</RelativeLayout>
