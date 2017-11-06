@@ -21,8 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.team7.sports.model.Game;
 import org.team7.sports.model.GamePlayer;
 
-import java.util.HashMap;
-
 public class CreateGameActivity extends AppCompatActivity {
 
     private TextInputLayout mGameName;
@@ -43,14 +41,16 @@ public class CreateGameActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
         g.setGameId(currentUse.getUid());
-        myRef = database.getReference().child("GameThread").child(g.getGameId());
-        HashMap<String, Game> hashmap = new HashMap<String, Game>();
-        hashmap.put(g.getGameName(), g);
+        myRef = database.getReference().child("GameThread");
+        //myRef = database.getReference().child("GameThread").child(g.getGameId());
+        //HashMap<String, Game> hashmap = new HashMap<String, Game>();
+        //hashmap.put(g.getGameName(), g);
 
-        myRef.setValue(hashmap).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+        myRef.push().setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    Toast.makeText(CreateGameActivity.this, "succeeded", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 } else {
                     Toast.makeText(CreateGameActivity.this, "failed to create", Toast.LENGTH_LONG).show();

@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.lang3.StringUtils;
 import org.team7.sports.model.Game;
 
 
@@ -78,6 +79,7 @@ public class GameFragment extends Fragment {
         gameQuery.keepSynced(true);
 
 
+        //Log.d("ddd", "onbind()");
         mCreateGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,28 +98,33 @@ public class GameFragment extends Fragment {
             public GameListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.single_game_ingamelist, parent, false);
+                Log.d("ddd", "create adapter");
                 return new GameListViewHolder(view);
             }
 
 
-
-            protected void onBindViewHolder(final GameListViewHolder holder, int position, Game model) {
+            protected void onBindViewHolder(final GameListViewHolder holder, final int position, Game model) {
                 holder.setGameName(model.getGameName());
                 holder.setSportType(model.getSportType());
                 final String thisGameName = model.getGameName();
                 final String thisGameId = model.getGameId();
 
-                Log.d("ddd", "onbind()");
-                DatabaseReference single_game_reference = gameDatabase.child(model.getGameId());
+
+                DatabaseReference single_game_reference = gameDatabase.child(getRef(position).getKey());
+
                 single_game_reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Game g = (Game)dataSnapshot.getValue();
                         String gameName = dataSnapshot.child("gameName").getValue().toString();
                         holder.setGameName(gameName);
-                        String sportType = dataSnapshot.child("sportType").getValue().toString();
 
+
+                        String sportType = dataSnapshot.child("sportType").getValue().toString();
                         holder.setSportType(sportType);
-                        gameRecyclerViewAdapter.notifyDataSetChanged();
+                        //holder.setGameName(g.getGameName());
+                        //holder.setSportType(g.getSportType());
+                        //gameRecyclerViewAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -132,7 +139,7 @@ public class GameFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent gameDetailIntent = new Intent(getActivity(), ViewGameActivity.class);
-                        gameDetailIntent.putExtra("this_game_id", thisGameId);
+                        gameDetailIntent.putExtra("this_game_id", getRef(position).getKey());
                         startActivity(gameDetailIntent);
                     }
                 });
@@ -164,12 +171,12 @@ public class GameFragment extends Fragment {
 
         public void setGameName(String gName) {
 
-            gameNameView.setText(gName);
+            gameNameView.setText(StringUtils.abbreviate(gName, 26));
         }
 
         public void setSportType(String sType) {
 
-            sportTypeView.setText(sType);
+            sportTypeView.setText(StringUtils.abbreviate(sType, 26));
         }
     }
 
