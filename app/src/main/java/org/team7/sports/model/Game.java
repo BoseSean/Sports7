@@ -1,7 +1,5 @@
 package org.team7.sports.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by sYUYx on 3/11/17.
  */
@@ -12,8 +10,11 @@ public class Game {
     private String startTime;
     private int numberOfPlayer;
     private Boolean isPrivate;
-    private ArrayList<GamePlayer> players;
+    //private ArrayList<GamePlayer> players;
     private GamePlayer host;
+    //no more arraylist player
+
+
     private String passwd;
     private String gameId;
 
@@ -25,8 +26,8 @@ public class Game {
         this.startTime = starttime;
         this.numberOfPlayer = numberofplayer;
         this.host = host;
-        this.players = new ArrayList<GamePlayer>(numberOfPlayer);
-        players.add(host);
+        //this.players = new ArrayList<GamePlayer>(numberOfPlayer);
+        //players.add(host);
         this.isPrivate = isPrivate;
         this.passwd = password;
 
@@ -72,14 +73,13 @@ public class Game {
         return this.host;
     }
 
-    public void addNewPlayer(GamePlayer p) {
-        this.players.add(p);
-    }
-
     public String getGameId() {
         return this.gameId;
     }
 
+    //public void addNewPlayer(GamePlayer p){
+    //this.players.add(p);
+    //}
     public void setGameId(String gameId) {
         this.gameId = gameId;
     }
