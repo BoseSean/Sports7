@@ -63,6 +63,7 @@ public class GameFragment extends Fragment {
         gameList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread");
+
         return mainView;
     }
 
