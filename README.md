@@ -11,4 +11,4 @@ TODO design relation for games.
 ## Messages
 
 ## Bugs
-LatestMessage updates ONLY ONE side
+LatestMessage updates ONLY ONE side (emm so far no problem)
