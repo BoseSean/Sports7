@@ -78,11 +78,19 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.main_logout_btn) {  // sign out, go back to StartActivity
             FirebaseAuth.getInstance().signOut();
             toStartActivity();
+        } else if (item.getItemId() == R.id.main_weather_btn) {
+
         }
         return true;
     }
 
     private void toStartActivity(){
+        Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
+        startActivity(startIntent);
+        finish();
+    }
+
+    private void toWeatherActivity() {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(startIntent);
         finish();
