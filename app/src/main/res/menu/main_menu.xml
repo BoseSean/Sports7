@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/main_weather_btn"
-        android:title="Item" />
+        android:title="@string/check_weather" />
     <item
         android:id="@+id/main_logout_btn"
         android:title="@string/log_out" />

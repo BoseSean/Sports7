@@ -8,6 +8,9 @@
     <string name="register_failed">Failed to register</string>
     <string name="registering">Register new user</string>
     <string name="login_failed">Login Failed</string>
+    <string name="humidity">Humidity</string>
+    <string name="forecast">Forecast</string>
+    <string name="temperature">Temperature</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Welcome to the null</string>
