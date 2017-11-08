@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: change to UserName/ProfileImage or both
         mainToolBar = findViewById(R.id.main_tool_bar);
+
         setSupportActionBar(mainToolBar);
 
         // Tabs
@@ -60,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
-        } else {
-            setMainToolBarTitleAsUsername();
         }
     }
 

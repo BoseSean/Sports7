@@ -5,9 +5,18 @@
     tools:context="org.team7.sports.GameFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <Button
+        android:id="@+id/create_new_game_B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Game" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/Game_RV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </android.support.v7.widget.RecyclerView>
 </FrameLayout>

@@ -36,6 +36,9 @@
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme" />
         <activity android:name=".WeatherActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ViewGameActivity" />
+        <activity android:name=".CreateGameActivity"></activity>
     </application>
 
 </manifest>

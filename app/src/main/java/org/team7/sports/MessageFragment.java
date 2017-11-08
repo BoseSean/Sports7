@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
-        messageList = (RecyclerView) mainView.findViewById(R.id.chat_list);
+        messageList = mainView.findViewById(R.id.chat_list);
         messageList.setHasFixedSize(true);
         messageList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -82,6 +81,7 @@ public class MessageFragment extends Fragment {
                         holder.setTime(model.getLastTime());
                         holder.setMessage(model.getLatestMessage());
                         final String message_sender_id = getRef(position).getKey();
+
 
                         DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
                         senderDatabase.keepSynced(true);
@@ -122,6 +122,7 @@ public class MessageFragment extends Fragment {
 
         };
         messageList.setAdapter(chatsRecyclerViewAdapter);
+
     }
 
 
