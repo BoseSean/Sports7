@@ -75,7 +75,7 @@ public class GameFragment extends Fragment {
         super.onStart();
 
         //mCreateGame= (Button)GameListViewHolder.gView.findViewById(R.id.create_new_game_B);
-        gameQuery = FirebaseDatabase.getInstance().getReference().child("gameThread");
+        gameQuery = FirebaseDatabase.getInstance().getReference().child("GameThread"); //GameThread
         gameQuery.keepSynced(true);
 
 
@@ -87,11 +87,12 @@ public class GameFragment extends Fragment {
                 startActivity(create_game_intent);
             }
         });
-
-        FirebaseRecyclerOptions<Game> gameRecyclerOptions = new FirebaseRecyclerOptions.Builder<Game>()
+        //FirebaseRecyclerOptions gameRecyclerOptions = new FirebaseRecyclerOptions.Builder<Game>()
+        FirebaseRecyclerOptions gameRecyclerOptions = new FirebaseRecyclerOptions.Builder<Game>()
                 .setQuery(gameQuery, Game.class)
                 .setLifecycleOwner(this)
                 .build();
+
 
         gameRecyclerViewAdapter = new FirebaseRecyclerAdapter<Game, GameListViewHolder>(gameRecyclerOptions) {
 
@@ -103,15 +104,16 @@ public class GameFragment extends Fragment {
             }
 
 
-            protected void onBindViewHolder(final GameListViewHolder holder, final int position, Game model) {
+            protected void onBindViewHolder(final GameListViewHolder holder, final int position, Game model) { // int positon
                 holder.setGameName(model.getGameName());
                 holder.setSportType(model.getSportType());
-                final String thisGameName = model.getGameName();
-                final String thisGameId = model.getGameId();
-
-
+                //final String thisGameName = model.getGameName();
+                //final String thisGameId = model.getGameId();
+                //final String single_game_reference = getRef(position).getKey();
+                //DatabaseReference singleGameDatabase=gameDatabase.child(single_game_reference);
                 DatabaseReference single_game_reference = gameDatabase.child(getRef(position).getKey());
-
+                Log.d("haha", "item count is " + gameRecyclerViewAdapter.getItemCount());
+                //singleGameDatabase.addValueEventListener(new ValueEventListener() {
                 single_game_reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -139,7 +141,7 @@ public class GameFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent gameDetailIntent = new Intent(getActivity(), ViewGameActivity.class);
-                        gameDetailIntent.putExtra("this_game_id", getRef(position).getKey());
+                        gameDetailIntent.putExtra("this_game_id", getRef(position).getKey()); //single_game_reference
                         startActivity(gameDetailIntent);
                     }
                 });
@@ -155,8 +157,7 @@ public class GameFragment extends Fragment {
     }
 
 
-
-    private static class GameListViewHolder extends RecyclerView.ViewHolder {
+    public static class GameListViewHolder extends RecyclerView.ViewHolder {
         public View gView;
         TextView gameNameView;
         TextView sportTypeView;

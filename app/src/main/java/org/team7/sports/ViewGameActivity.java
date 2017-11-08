@@ -1,21 +1,25 @@
 package org.team7.sports;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.team7.sports.model.Game;
-import org.team7.sports.model.GamePlayer;
+
+import java.util.HashMap;
 
 public class ViewGameActivity extends AppCompatActivity {
 
@@ -26,10 +30,15 @@ public class ViewGameActivity extends AppCompatActivity {
     private TextView mLocation;
     private TextView mHostName;
     private TextView mHostEmail;
+    private TextView mIsPrivate;
     private String gameName;
     private Game g;
     private Button mJoinGame;
     private String gameId;
+    private TextInputLayout mPasswd;
+    private Boolean isPrivate;
+    private String password;
+    private String gameType;
 
     private FirebaseDatabase database;
     private DatabaseReference myref;
@@ -39,12 +48,109 @@ public class ViewGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_game);
 
+        mGameName = findViewById(R.id.game_name_TV);
+        mSportType = findViewById(R.id.Sport_type_TV);
+        mDate = findViewById(R.id.Date_TV);
+        mStartTime = findViewById(R.id.game_name_TV);
+        mLocation = findViewById(R.id.Location_TV);
+        mHostName = findViewById(R.id.host_name_TV);
+        mHostEmail = findViewById(R.id.host_email_TV);
+        mIsPrivate = findViewById(R.id.isPrivate_TV);
+        mPasswd = findViewById(R.id.passwd_input_TIL);
+        isPrivate = false;
         gameId = getIntent().getStringExtra("this_game_id");
         myref = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameId);
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        Log.d("ddd", gameId);
+        g = new Game();
+        myref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                g = (Game) dataSnapshot.getValue();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                switch (dataSnapshot.getKey()) {
+                    case "date": {
+                        mDate.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "gameName": {
+                        gameName = dataSnapshot.getValue().toString();
+                        mGameName.setText(gameName);
+                        break;
+                    }
+                    case "hostEmail": {
+                        mHostEmail.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "hostName": {
+                        mHostName.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "isPrivate": {
+                        if (dataSnapshot.getValue().toString().equalsIgnoreCase("true")) {
+                            mIsPrivate.setText("Private Game");
+                            isPrivate = true;
+                        } else mIsPrivate.setText("Public Game");
+                    }
+                    case "location": {
+                        mLocation.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "sportType": {
+                        gameType = dataSnapshot.getValue().toString();
+                        mSportType.setText(gameType);
+                        break;
+                    }
+                    case "passwd": {
+                        password = dataSnapshot.getValue().toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                switch (dataSnapshot.getKey()) {
+                    case "date": {
+                        mDate.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "gameName": {
+                        mGameName.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "hostEmail": {
+                        mHostEmail.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "hostName": {
+                        mHostName.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "isPrivate": {
+                        if (dataSnapshot.getValue().toString().equalsIgnoreCase("true")) {
+                            mIsPrivate.setText("Private Game");
+                            isPrivate = true;
+                        } else mIsPrivate.setText("Public Game");
+                    }
+                    case "location": {
+                        mLocation.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "sportType": {
+                        mSportType.setText(dataSnapshot.getValue().toString());
+                        break;
+                    }
+                    case "passwd": {
+                        password = dataSnapshot.getValue().toString();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -53,29 +159,46 @@ public class ViewGameActivity extends AppCompatActivity {
 
             }
         });
-        mGameName.setText(gameName);
-        mSportType.setText(g.getSportType());
-        mDate.setText(g.getDate());
-        mStartTime.setText(g.getStartTime());
-        mLocation.setText(g.getLocation());
-        mHostName.setText(g.getHost().getUserId());
-        mHostEmail.setText(g.getHost().getEmail());
+
 
         mJoinGame = findViewById(R.id.join_Game_B);
         mJoinGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = currentUse.getUid();
-                String email = currentUse.getEmail();
-                GamePlayer p = new GamePlayer(uid, email);
-                g.addNewPlayer(p);
-                myref.setValue(p);
+                String inputPasswd = mPasswd.getEditText().getText().toString();
+                Log.d("joinjoin", inputPasswd + ' ' + password);
+
+
+                if (isPrivate == true) {
+                    if (inputPasswd.equals(password)) {
+                        Log.d("logic", "11");
+                        joinGame(myref);
+                        Log.d("joinjoin", inputPasswd + ' ' + password);
+                        Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d("logic", "12");
+                        Toast.makeText(ViewGameActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.d("logic", "13");
+                    joinGame(myref);
+                    Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
+
+
+                }
+
             }
         });
+    }
 
-
-
-
+    public void joinGame(DatabaseReference ref) {
+        FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+        String usrid = currentUse.getUid();
+        ref.child("player").push().setValue(usrid);
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
+        HashMap<String, String> hmap = new HashMap<String, String>();
+        hmap.put("gameName", gameName);
+        hmap.put("sportType", gameType);
+        ref.child("participated games").push().setValue(hmap);
 
     }
 }

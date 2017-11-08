@@ -87,4 +87,28 @@
         android:layout_marginBottom="64dp"
         android:text="Join" />
 
+    <TextView
+        android:id="@+id/isPrivate_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/Sport_type_TV"
+        android:layout_below="@+id/host_email_TV"
+        android:layout_marginTop="31dp"
+        android:text="TextView" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwd_input_TIL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/join_Game_B"
+        android:layout_alignStart="@+id/join_Game_B"
+        android:layout_marginBottom="30dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="if private,enter passwd"
+            android:inputType="none" />
+    </android.support.design.widget.TextInputLayout>
+
 </RelativeLayout>

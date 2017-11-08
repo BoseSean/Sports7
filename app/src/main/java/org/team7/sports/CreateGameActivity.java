@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.team7.sports.model.Game;
-import org.team7.sports.model.GamePlayer;
 
 public class CreateGameActivity extends AppCompatActivity {
 
@@ -39,17 +38,21 @@ public class CreateGameActivity extends AppCompatActivity {
 
     public void createGame(Game g) {
         database = FirebaseDatabase.getInstance();
-        FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
-        g.setGameId(currentUse.getUid());
+        //FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+        //g.setGameId(currentUse.getUid());
         myRef = database.getReference().child("GameThread");
         //myRef = database.getReference().child("GameThread").child(g.getGameId());
         //HashMap<String, Game> hashmap = new HashMap<String, Game>();
         //hashmap.put(g.getGameName(), g);
+        String gameid = myRef.push().getKey();
+        myRef = myRef.child(gameid);
+        g.setGameId(gameid);
 
-        myRef.push().setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+        myRef.setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+
                     Toast.makeText(CreateGameActivity.this, "succeeded", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 } else {
@@ -102,8 +105,8 @@ public class CreateGameActivity extends AppCompatActivity {
                 FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUse.getUid();
                 String email = currentUse.getEmail();
-                GamePlayer host = new GamePlayer(uid, email);
-                host.setIsHost();
+                //GamePlayer host = new GamePlayer(uid, email);
+                //host.setIsHost();
 
 
                 if (mPrivate.isChecked()) {
@@ -115,12 +118,15 @@ public class CreateGameActivity extends AppCompatActivity {
                 }
 
 
-                Game g = new Game(passwd, isPrivate, gameName, sportType, location, date, time, numberOfppl, host);
+                Game g = new Game(passwd, "null", isPrivate, gameName, sportType, location, date, time, numberOfppl, uid, email);
 
                 if (!TextUtils.isEmpty((gameName)) || !TextUtils.isEmpty(sportType) || !TextUtils.isEmpty(mNumberofppl.getEditText().getText().toString())
                         || !TextUtils.isEmpty(date) || !TextUtils.isEmpty(time)) {
 
                     createGame(g);
+                } else {
+                    Toast.makeText(CreateGameActivity.this, "need to fill in all the field", Toast.LENGTH_LONG);
+
                 }
 
             }

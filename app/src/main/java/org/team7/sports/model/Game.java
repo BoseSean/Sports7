@@ -11,25 +11,32 @@ public class Game {
     private int numberOfPlayer;
     private Boolean isPrivate;
     //private ArrayList<GamePlayer> players;
-    private GamePlayer host;
+    private String hostName;
+    private String hostEmail;
     //no more arraylist player
 
 
     private String passwd;
     private String gameId;
 
-    public Game(String password, Boolean isPrivate, String name, String typeofsport, String location, String date, String starttime, int numberofplayer, GamePlayer host) {
+    public Game(String password, String gameid, Boolean isPrivate, String name, String typeofsport, String location, String date, String starttime, int numberofplayer, String hName, String hEmail) {
         this.name = name;
+        this.gameId = gameid;
         this.typeOfSport = typeofsport;
         this.location = location;
         this.date = date;
         this.startTime = starttime;
         this.numberOfPlayer = numberofplayer;
-        this.host = host;
+        this.hostEmail = hEmail;
+        this.hostName = hName;
         //this.players = new ArrayList<GamePlayer>(numberOfPlayer);
         //players.add(host);
         this.isPrivate = isPrivate;
         this.passwd = password;
+
+    }
+
+    public Game() {
 
     }
 
@@ -69,8 +76,15 @@ public class Game {
         return this.numberOfPlayer;
     }
 
-    public GamePlayer getHost() {
-        return this.host;
+    //public GamePlayer getHost() {
+    //   return this.host;
+    //}
+    public String getHostName() {
+        return this.hostName;
+    }
+
+    public String getHostEmail() {
+        return this.hostEmail;
     }
 
     public String getGameId() {
@@ -87,6 +101,5 @@ public class Game {
     public void setTypeOfSport(String sportType) {
         this.typeOfSport = sportType;
     }
-
 
 }
