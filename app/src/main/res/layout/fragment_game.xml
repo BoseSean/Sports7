@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="org.team7.sports.GameFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <Button
         android:id="@+id/create_new_game_B"

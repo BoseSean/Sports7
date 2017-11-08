@@ -86,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         thatUserId = getIntent().getStringExtra("that_user_id");
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
-        // TODO
+
         userChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats");
         chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
         chatDatabase.keepSynced(true);

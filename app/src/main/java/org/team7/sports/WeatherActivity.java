@@ -42,7 +42,8 @@ public class WeatherActivity extends AppCompatActivity {
 
     }
 
-
+    // TODO Add auto refresh
+    // TODO Add tool bar
     public void refreshWeather(View view) throws IOException, JSONException {
         Date now = new Date();
 
