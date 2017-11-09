@@ -80,45 +80,99 @@ public class MessageFragment extends Fragment {
                     protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
                         holder.setTime(model.getLastTime());
                         holder.setMessage(model.getLatestMessage());
-                        final String message_sender_id = getRef(position).getKey();
+                        boolean isgroup = model.getIsGroup();
 
 
-                        DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
-                        senderDatabase.keepSynced(true);
+                        if (isgroup == false) {
+                            final String message_sender_id = getRef(position).getKey();
 
-                        senderDatabase.addValueEventListener(new ValueEventListener() {
 
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
-                                holder.setMessage(newMessage);
+                            DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
+                            senderDatabase.keepSynced(true);
 
-                                String senderID = dataSnapshot.getKey();
-                                accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        holder.setSenderName(dataSnapshot.getValue().toString());
-                                    }
+                            senderDatabase.addValueEventListener(new ValueEventListener() {
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {}
-                                });
-                            }
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
+                                    holder.setMessage(newMessage);
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                    String senderID = dataSnapshot.getKey();
+                                    accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.getValue() != null)
+                                                holder.setSenderName(dataSnapshot.getValue().toString());
+                                        }
 
-                            }
-                        });
-                        holder.mView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent profileIntent = new Intent(getActivity(), ChatActivity.class);
-                                profileIntent.putExtra("that_user_id", message_sender_id);
-                                startActivity(profileIntent);
-                            }
-                        });
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                            holder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent profileIntent = new Intent(getActivity(), ChatActivity.class);
+                                    profileIntent.putExtra("that_user_id", message_sender_id);
+                                    startActivity(profileIntent);
+                                }
+                            });
+                        } else {
+                            final String gameid = getRef(position).getKey();
+                            holder.setTime(model.getLastTime());
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameid);
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String name = dataSnapshot.child("gameName").getValue().toString();
+                                    holder.setSenderName(name);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            DatabaseReference gameChatReference = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id).child(gameid);
+                            gameChatReference.keepSynced(true);
+                            gameChatReference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
+                                    holder.setMessage(newMessage);
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                            holder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent groupChatIntent = new Intent(getActivity(), ChatActivity.class);
+                                    groupChatIntent.putExtra("is_group", true);
+                                    groupChatIntent.putExtra("the_game_id", gameid);
+                                    startActivity(groupChatIntent);
+                                }
+                            });
+
+                        }
+
                     }
+
+
+
+
 
         };
         messageList.setAdapter(chatsRecyclerViewAdapter);

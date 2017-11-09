@@ -10,12 +10,15 @@
         android:id="@+id/create_new_game_B"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:text="New Game" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/Game_RV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/create_new_game_B">
 
 
     </android.support.v7.widget.RecyclerView>

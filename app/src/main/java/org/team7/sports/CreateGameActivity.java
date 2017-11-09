@@ -38,7 +38,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
     public void createGame(Game g) {
         database = FirebaseDatabase.getInstance();
-        //FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
         //g.setGameId(currentUse.getUid());
         myRef = database.getReference().child("GameThread");
         //myRef = database.getReference().child("GameThread").child(g.getGameId());
@@ -52,6 +52,8 @@ public class CreateGameActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    myRef = myRef.child("player");
+                    myRef.push().setValue(currentUse.getUid());
 
                     Toast.makeText(CreateGameActivity.this, "succeeded", Toast.LENGTH_LONG).show();
                     onBackPressed();

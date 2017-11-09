@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.team7.sports.model.Message;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import static org.team7.sports.Util.TimeUtil.getTimeAgo;
 
@@ -40,13 +44,16 @@ public class ChatActivity extends AppCompatActivity {
     private String thisUserId;
     private String mCurrentChatThread;
     private DatabaseReference chatDatabase;
+    private DatabaseReference groupChatDatabase;
     private DatabaseReference userChatDatabase;
+    private DatabaseReference gameDatabase;
     private DatabaseReference accountsDatabase;
-
+    private boolean isGroup;
     private RecyclerView messageList;
     private ImageButton sendBtn;
     private EditText chatMessageInput;
-
+    private String gameid;
+    private HashSet<String> set;
     public ChatActivity() {
     }
 
@@ -54,7 +61,11 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);  // modify here
-        Toolbar toolbar = (Toolbar) findViewById(R.id.chat_tool_bar);
+        Toolbar toolbar = findViewById(R.id.chat_tool_bar);
+
+        gameid = getIntent().getStringExtra("the_game_id");
+        groupChatDatabase = FirebaseDatabase.getInstance().getReference().child("ChatThreads").child(gameid);
+        isGroup = getIntent().getBooleanExtra("is_group", false);
 
         // set up back button on toolbar
         setSupportActionBar(toolbar);
@@ -66,14 +77,15 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        chatMessageInput = (EditText) findViewById(R.id.chat_message_input);
-        sendBtn = (ImageButton) findViewById(R.id.chat_send_btn);
+        chatMessageInput = findViewById(R.id.chat_message_input);
+        sendBtn = findViewById(R.id.chat_send_btn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String message = chatMessageInput.getText().toString().trim();
                 if (!message.equals("")) {
-                    send_message(message);
+                    if (isGroup) send_group_message(message);
+                    else send_message(message);
                 }
             }
         });
@@ -85,23 +97,63 @@ public class ChatActivity extends AppCompatActivity {
 
         thatUserId = getIntent().getStringExtra("that_user_id");
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
+        if (!isGroup) mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
         // TODO
         userChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats");
-        chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
-        chatDatabase.keepSynced(true);
+        if (!isGroup) {
+            chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
+            chatDatabase.keepSynced(true);
+        }
 
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameid).child("player");
+        set = new HashSet<String>();
+        gameDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                set.add(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                set.add(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                set.remove(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseRecyclerOptions<Message> options =
-                new FirebaseRecyclerOptions.Builder<Message>()
-                        .setQuery(chatDatabase, Message.class)
-                        .setLifecycleOwner(this)
-                        .build();
+        FirebaseRecyclerOptions<Message> options;
+        if (isGroup) {
+            options =
+                    new FirebaseRecyclerOptions.Builder<Message>()
+                            .setQuery(groupChatDatabase, Message.class)
+                            .setLifecycleOwner(this).build();
+        } else {
+            options =
+                    new FirebaseRecyclerOptions.Builder<Message>()
+                            .setQuery(chatDatabase, Message.class)
+                            .setLifecycleOwner(this)
+                            .build();
+        }
         FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
 
             @Override
@@ -167,6 +219,37 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void send_group_message(String message) {
+        HashMap messageMap = new HashMap();
+        messageMap.put("message", message);
+        messageMap.put("sender", thisUserId);
+        messageMap.put("time", ServerValue.TIMESTAMP);
+        groupChatDatabase.push().setValue(messageMap);
+
+        Iterator<String> itr = set.iterator();
+        HashMap messageSnapMap = new HashMap();
+        HashMap userChatMap = new HashMap();
+        messageSnapMap.put("latestMessage", message);
+        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+        messageSnapMap.put("isGroup", true);
+
+
+        while (itr.hasNext()) {
+            userChatMap.put(itr.next() + "/" + gameid, messageSnapMap);
+            Log.d("testGroupChat", "how many elements" + userChatMap.size());
+        }
+        userChatDatabase.updateChildren(userChatMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isComplete()) {
+                    chatMessageInput.setText("");
+                }
+            }
+        });
+
+
+    }
+
     private void send_message(String message) {
 
         // TODO improve data consistency of pushing new messages
@@ -180,6 +263,7 @@ public class ChatActivity extends AppCompatActivity {
         HashMap userChatMap = new HashMap();
         messageSnapMap.put("latestMessage", message);
         messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+        messageSnapMap.put("isGroup", false);
 
 
         userChatMap.put(thisUserId + "/" + thatUserId, messageSnapMap);
