@@ -53,7 +53,7 @@ public class FriendFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mainView = inflater.inflate(R.layout.fragment_game, container, false);
+        mainView = inflater.inflate(R.layout.fragment_friend, container, false);
 
         AddFriend = mainView.findViewById(R.id.Friend_Function);
         DeleteFriend = mainView.findViewById(R.id.Friend_Function);
@@ -75,7 +75,7 @@ public class FriendFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        friendQuery = FirebaseDatabase.getInstance().getReference().child("User").child("friendlist"); //GameThread
+        friendQuery = FirebaseDatabase.getInstance().getReference().child("User"); //GameThread
         friendQuery.keepSynced(true);
 
         AddFriend.setOnClickListener(new View.OnClickListener() {
@@ -96,14 +96,13 @@ public class FriendFragment extends Fragment {
             public FriendListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.single_friend, parent, false);
-                Log.d("ddd", "create adapter");
                 return new FriendListViewHolder(view);
             }
 
             protected void onBindViewHolder(final FriendListViewHolder holder, final int position, Account model) { // int positon
                 holder.setFriendName(model.getName());
                 DatabaseReference friend_reference = AccountDatabase.child(getRef(position).getKey());
-                Log.d("haha", "item count is " + friendRecyclerViewAdapter.getItemCount());
+//                Log.d("haha", "item count is " + friendRecyclerViewAdapter.getItemCount());
 
                 friend_reference.addValueEventListener(new ValueEventListener() {
 
