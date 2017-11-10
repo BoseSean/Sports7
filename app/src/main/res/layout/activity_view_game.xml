@@ -9,40 +9,38 @@
         android:id="@+id/game_name_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
-        android:text="Game Name" />
+        android:layout_alignBottom="@+id/textView14"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/textView14"
+        android:text="Game Name"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/Sport_type_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/game_name_TV"
-        android:layout_alignStart="@+id/game_name_TV"
-        android:layout_below="@+id/game_name_TV"
-        android:layout_marginTop="19dp"
-        android:text="sport type" />
+
+        android:layout_alignBottom="@+id/textView16"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/textView14"
+        android:text="sport type"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/Date_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Sport_type_TV"
-        android:layout_alignStart="@+id/Sport_type_TV"
+
+        android:layout_alignEnd="@+id/game_name_TV"
         android:layout_below="@+id/Sport_type_TV"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="29dp"
         android:text="Date is" />
 
     <TextView
         android:id="@+id/start_time_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Date_TV"
-        android:layout_alignStart="@+id/Date_TV"
+
         android:layout_below="@+id/Date_TV"
         android:layout_marginTop="21dp"
         android:text="Starting time is" />
@@ -51,8 +49,7 @@
         android:id="@+id/Location_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/start_time_TV"
-        android:layout_alignStart="@+id/start_time_TV"
+
         android:layout_below="@+id/start_time_TV"
         android:layout_marginTop="19dp"
         android:text="Location is" />
@@ -61,8 +58,7 @@
         android:id="@+id/host_name_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Location_TV"
-        android:layout_alignStart="@+id/Location_TV"
+
         android:layout_below="@+id/Location_TV"
         android:layout_marginTop="29dp"
         android:text="host name is" />
@@ -71,8 +67,7 @@
         android:id="@+id/host_email_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/game_name_TV"
-        android:layout_alignStart="@+id/game_name_TV"
+
         android:layout_below="@+id/host_name_TV"
         android:layout_gravity="right"
         android:layout_marginTop="26dp"
@@ -124,10 +119,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/passwd_input_TIL"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
             android:layout_toEndOf="@+id/Location_TV"
             android:layout_weight="1"
             android:hint="if private,enter password"
             android:inputType="none" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="3dp"
+        android:text="Game Details"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView12"
+        android:layout_below="@+id/textView12"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="10dp"
+        android:text="-Game Name:"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_below="@+id/textView14"
+        android:layout_marginTop="15dp"
+        android:text="-Sports Type:"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView16"
+        android:layout_below="@+id/textView16"
+        android:layout_marginTop="15dp"
+        android:text="Date:"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp" />
 
 </RelativeLayout>
