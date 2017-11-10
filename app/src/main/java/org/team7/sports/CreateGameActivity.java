@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class CreateGameActivity extends AppCompatActivity {
     private TextInputLayout mLocation;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private Toolbar toolbar;
 
     public void createGame(Game g) {
         database = FirebaseDatabase.getInstance();
@@ -47,6 +49,12 @@ public class CreateGameActivity extends AppCompatActivity {
         String gameid = myRef.push().getKey();
         myRef = myRef.child(gameid);
         g.setGameId(gameid);
+
+        //TODO Add toolbar to create game page
+//        toolbar = (Toolbar) findViewById(R.id.create_game_bar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Game Details");
 
         myRef.setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override

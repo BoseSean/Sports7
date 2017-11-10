@@ -1,239 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.team7.sports.ViewGameActivity">
 
-    <TextView
-        android:id="@+id/game_name_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView14"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView14"
-        android:text="Game Name"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/Sport_type_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBottom="@+id/textView16"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView14"
-        android:text="sport type"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/Date_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBaseline="@+id/textView17"
-        android:layout_alignBottom="@+id/textView17"
-        android:layout_alignEnd="@+id/textView16"
-        android:layout_marginStart="5dp"
-        android:text="Date is"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/start_time_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBaseline="@+id/textView7"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView7"
-        android:text="Starting time is"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/Location_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBaseline="@+id/textView8"
-        android:layout_alignBottom="@+id/textView8"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView8"
-        android:text="Location is"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/host_name_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBaseline="@+id/textView9"
-        android:layout_alignBottom="@+id/textView9"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView9"
-        android:text="host name is"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/host_email_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBottom="@+id/textView10"
-        android:layout_gravity="right"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/textView10"
-        android:text="host email is"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/join_Game_B"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="64dp"
-        android:layout_toStartOf="@+id/host_name_TV"
-        android:text="Join" />
-
-
-    <Button
-        android:id="@+id/chat_Game_B"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/passwd_input_TIL"
-        android:layout_below="@+id/passwd_input_TIL"
-        android:layout_marginEnd="25dp"
-        android:text="Chat" />
-
-    <TextView
-        android:id="@+id/isPrivate_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBottom="@+id/passwd_input_TIL"
-        android:layout_alignEnd="@+id/textView8"
-        android:layout_marginBottom="16dp"
-        android:text="TextView" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/passwd_input_TIL"
+    <include
+        android:id="@+id/create_game_bar"
+        layout="@layout/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/join_Game_B"
-        android:layout_alignStart="@+id/join_Game_B"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="10dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"></include>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/create_game_bar"
+        tools:context="org.team7.sports.ViewGameActivity">
+
+        <TextView
+            android:id="@+id/game_name_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView14"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView14"
+            android:text="Game Name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Sport_type_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBottom="@+id/textView16"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView14"
+            android:text="sport type"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Date_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBaseline="@+id/textView17"
+            android:layout_alignBottom="@+id/textView17"
+            android:layout_alignEnd="@+id/textView16"
+            android:layout_marginStart="5dp"
+            android:text="Date is"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/start_time_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBaseline="@+id/textView7"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView7"
+            android:text="Starting time is"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/Location_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBaseline="@+id/textView8"
+            android:layout_alignBottom="@+id/textView8"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView8"
+            android:text="Location is"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/host_name_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBaseline="@+id/textView9"
+            android:layout_alignBottom="@+id/textView9"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView9"
+            android:text="host name is"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/host_email_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignBottom="@+id/textView10"
+            android:layout_gravity="right"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView10"
+            android:text="host email is"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/join_Game_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textInputEditText"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/host_name_TV"
+            android:text="Join" />
+
+
+        <Button
+            android:id="@+id/chat_Game_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/passwd_input_TIL"
+            android:layout_below="@+id/passwd_input_TIL"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Chat" />
+
+        <TextView
+            android:id="@+id/isPrivate_TV"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+
+            android:layout_above="@+id/textInputEditText"
+            android:layout_alignEnd="@+id/Sport_type_TV"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView11"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwd_input_TIL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/join_Game_B"
+            android:layout_alignStart="@+id/join_Game_B"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="10dp">
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/textView12"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="Game Details"-->
+        <!--android:textSize="30sp" />-->
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView12"
+            android:layout_below="@+id/textView12"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="15dp"
+            android:text="Game Name:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView14"
+            android:layout_below="@+id/textView14"
+            android:layout_marginTop="15dp"
+            android:text="Sports Type:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView16"
+            android:layout_below="@+id/textView16"
+            android:layout_marginTop="15dp"
+            android:text="Date:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView17"
+            android:layout_below="@+id/Date_TV"
+            android:layout_marginTop="15dp"
+            android:text="Starting Time:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView7"
+            android:layout_below="@+id/textView7"
+            android:layout_marginTop="15dp"
+            android:text="Location:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView8"
+            android:layout_below="@+id/textView8"
+            android:layout_marginTop="15dp"
+            android:text="Name of Host:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_below="@+id/host_name_TV"
+            android:layout_marginTop="15dp"
+            android:text="Host Email"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView10"
+            android:layout_below="@+id/textView10"
+            android:layout_marginTop="15dp"
+            android:text="Privacy:"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="16sp" />
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/passwd_input_TIL"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_alignStart="@+id/textView12"
+            android:layout_below="@+id/textView11"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:hint="if private,enter password"
             android:inputType="none" />
-    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="Game Details"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView12"
-        android:layout_below="@+id/textView12"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="15dp"
-        android:text="-Game Name:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView14"
-        android:layout_below="@+id/textView14"
-        android:layout_marginTop="20dp"
-        android:text="-Sports Type:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView16"
-        android:layout_below="@+id/textView16"
-        android:layout_marginTop="20dp"
-        android:text="-Date:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView17"
-        android:layout_below="@+id/Date_TV"
-        android:layout_marginTop="20dp"
-        android:text="-Starting Time:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView7"
-        android:layout_below="@+id/textView7"
-        android:layout_marginTop="20dp"
-        android:text="-Location:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_below="@+id/textView8"
-        android:layout_marginTop="20dp"
-        android:text="-Name of Host:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_below="@+id/host_name_TV"
-        android:layout_marginTop="20dp"
-        android:text="-Email of the Host:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/passwd_input_TIL"
-        android:layout_alignStart="@+id/textView10"
-        android:layout_marginTop="15dp"
-        android:text="-Privacy:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
-
+    </RelativeLayout>
 </RelativeLayout>

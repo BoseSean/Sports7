@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myref;
     private String usrid;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,13 @@ public class ViewGameActivity extends AppCompatActivity {
         mIsPrivate = findViewById(R.id.isPrivate_TV);
         mPasswd = findViewById(R.id.passwd_input_TIL);
         mChatGame = findViewById(R.id.chat_Game_B);
+
+        toolbar = (Toolbar) findViewById(R.id.create_game_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Game Details");
+
+
         isPrivate = false;
         gameId = getIntent().getStringExtra("this_game_id");
         myref = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameId);

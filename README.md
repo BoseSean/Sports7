@@ -4,8 +4,7 @@
 
 
 ## Games
-TODO figure out how to change menu bar
-TODO add GAME CHAT function ********IMPORTANT!!!!!*********
+
 
 ## Messages
 
