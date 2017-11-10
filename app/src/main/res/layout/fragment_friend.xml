@@ -5,8 +5,15 @@
     tools:context="org.team7.sports.FriendFragment">
 
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friend_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="500dp"
+        android:layout_marginTop="50dp"/>
+
 </FrameLayout>
