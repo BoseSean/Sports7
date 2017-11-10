@@ -63,9 +63,42 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);  // modify here
         Toolbar toolbar = findViewById(R.id.chat_tool_bar);
 
-        gameid = getIntent().getStringExtra("the_game_id");
-        groupChatDatabase = FirebaseDatabase.getInstance().getReference().child("ChatThreads").child(gameid);
         isGroup = getIntent().getBooleanExtra("is_group", false);
+        if (isGroup) {
+            gameid = getIntent().getStringExtra("the_game_id");
+            groupChatDatabase = FirebaseDatabase.getInstance().getReference().child("ChatThreads").child(gameid);
+
+            gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameid).child("player");
+            set = new HashSet<String>();
+            gameDatabase.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    set.add(dataSnapshot.getValue().toString());
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    set.add(dataSnapshot.getValue().toString());
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    set.remove(dataSnapshot.getValue().toString());
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
 
         // set up back button on toolbar
         setSupportActionBar(toolbar);
@@ -106,34 +139,6 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameid).child("player");
-        set = new HashSet<String>();
-        gameDatabase.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                set.add(dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                set.add(dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                set.remove(dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
     }
@@ -192,17 +197,36 @@ public class ChatActivity extends AppCompatActivity {
                     ((ReceiveMessagesViewAdapter) holder).setTime(model.getTime());
 
                     // below is to get the sender name, because sender name is not contained in Message object
-                    accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
-                        }
+                    if (!isGroup) {
+                        accountsDatabase.child(thatUserId).child("name").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                            }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        DatabaseReference myref = FirebaseDatabase.getInstance().getReference().child("Users").child(model.getSender());
+                        myref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getKey() == "name")
+                                    ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                    }
+
                 }
             }
         };
