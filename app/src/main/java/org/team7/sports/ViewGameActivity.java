@@ -1,5 +1,6 @@
 package org.team7.sports;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.team7.sports.model.Game;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class ViewGameActivity extends AppCompatActivity {
 
@@ -34,14 +36,16 @@ public class ViewGameActivity extends AppCompatActivity {
     private String gameName;
     private Game g;
     private Button mJoinGame;
+    private Button mChatGame;
     private String gameId;
     private TextInputLayout mPasswd;
     private Boolean isPrivate;
     private String password;
     private String gameType;
-
+    private HashSet<String> players;
     private FirebaseDatabase database;
     private DatabaseReference myref;
+    private String usrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +61,46 @@ public class ViewGameActivity extends AppCompatActivity {
         mHostEmail = findViewById(R.id.host_email_TV);
         mIsPrivate = findViewById(R.id.isPrivate_TV);
         mPasswd = findViewById(R.id.passwd_input_TIL);
+        mChatGame = findViewById(R.id.chat_Game_B);
         isPrivate = false;
         gameId = getIntent().getStringExtra("this_game_id");
         myref = FirebaseDatabase.getInstance().getReference().child("GameThread").child(gameId);
         Log.d("ddd", gameId);
         g = new Game();
+        players = new HashSet<String>();
+        FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+        usrid = currentUse.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("GameThread")
+                .child(gameId).child("player");
+        ref.keepSynced(true);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                players.add(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                players.add(dataSnapshot.getValue().toString());
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                players.remove(dataSnapshot.getValue().toString());
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         myref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -159,6 +198,20 @@ public class ViewGameActivity extends AppCompatActivity {
 
             }
         });
+        mChatGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (players.contains(usrid) == false) {
+                    Toast.makeText(ViewGameActivity.this, "Join game first to chat", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent chatIntent = new Intent(ViewGameActivity.this, ChatActivity.class);
+                    chatIntent.putExtra("is_group", true);
+                    chatIntent.putExtra("the_game_id", gameId);
+                    startActivity(chatIntent);
+                }
+
+            }
+        });
 
 
         mJoinGame = findViewById(R.id.join_Game_B);
@@ -168,7 +221,10 @@ public class ViewGameActivity extends AppCompatActivity {
                 Log.d("joinjoin", inputPasswd + ' ' + password);
 
 
-                if (isPrivate == true) {
+                if (players.contains(usrid)) {
+                    Toast.makeText(ViewGameActivity.this, "you have already joined this game", Toast.LENGTH_LONG).show();
+
+                } else if (isPrivate == true) {
                     if (inputPasswd.equals(password)) {
                         Log.d("logic", "11");
                         joinGame(myref);
@@ -201,4 +257,5 @@ public class ViewGameActivity extends AppCompatActivity {
         ref.child("participated games").push().setValue(hmap);
 
     }
+
 }

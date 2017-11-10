@@ -43,6 +43,7 @@ public class GameFragment extends Fragment {
     private Button mCreateGame;
 
 
+
     public GameFragment() {
         // Required empty public constructor
     }
@@ -64,6 +65,7 @@ public class GameFragment extends Fragment {
         gameList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         gameDatabase = FirebaseDatabase.getInstance().getReference().child("GameThread");
+
 
         return mainView;
     }
@@ -107,10 +109,13 @@ public class GameFragment extends Fragment {
             protected void onBindViewHolder(final GameListViewHolder holder, final int position, Game model) { // int positon
                 holder.setGameName(model.getGameName());
                 holder.setSportType(model.getSportType());
+                holder.setGameDate(model.getDate());
+
                 //final String thisGameName = model.getGameName();
                 //final String thisGameId = model.getGameId();
                 //final String single_game_reference = getRef(position).getKey();
                 //DatabaseReference singleGameDatabase=gameDatabase.child(single_game_reference);
+
                 DatabaseReference single_game_reference = gameDatabase.child(getRef(position).getKey());
                 Log.d("haha", "item count is " + gameRecyclerViewAdapter.getItemCount());
                 //singleGameDatabase.addValueEventListener(new ValueEventListener() {
@@ -127,6 +132,9 @@ public class GameFragment extends Fragment {
                         //holder.setGameName(g.getGameName());
                         //holder.setSportType(g.getSportType());
                         //gameRecyclerViewAdapter.notifyDataSetChanged();
+
+                        String gameDate = dataSnapshot.child("date").getValue().toString();
+                        holder.setGameDate(gameDate);
                     }
 
                     @Override
@@ -161,6 +169,7 @@ public class GameFragment extends Fragment {
         public View gView;
         TextView gameNameView;
         TextView sportTypeView;
+        TextView gameDateView;
 
 
         public GameListViewHolder(View itemView) {
@@ -168,6 +177,7 @@ public class GameFragment extends Fragment {
             gView = itemView;
             gameNameView = gView.findViewById(R.id.game_single_name);
             sportTypeView = gView.findViewById(R.id.game_single_type);
+            gameDateView = gView.findViewById(R.id.game_single_date);
         }
 
         public void setGameName(String gName) {
@@ -178,6 +188,11 @@ public class GameFragment extends Fragment {
         public void setSportType(String sType) {
 
             sportTypeView.setText(StringUtils.abbreviate(sType, 26));
+        }
+
+        public void setGameDate(String gDate) {
+
+            gameDateView.setText(StringUtils.abbreviate(gDate, 26));
         }
     }
 
