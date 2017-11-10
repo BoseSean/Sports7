@@ -224,8 +224,7 @@ public class ViewGameActivity extends AppCompatActivity {
                 if (players.contains(usrid)) {
                     Toast.makeText(ViewGameActivity.this, "you have already joined this game", Toast.LENGTH_LONG).show();
 
-                }
-                if (isPrivate == true) {
+                } else if (isPrivate == true) {
                     if (inputPasswd.equals(password)) {
                         Log.d("logic", "11");
                         joinGame(myref);
