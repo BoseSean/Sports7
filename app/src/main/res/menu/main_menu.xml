@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/main_weather_btn"
+        android:title="@string/check_weather" />
+    <item
         android:id="@+id/main_logout_btn"
-        android:title="Log out" />
+        android:title="@string/log_out" />
 </menu>

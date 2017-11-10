@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
-        } else {
-            setMainToolBarTitleAsUsername();  // ugly but I have to do this
         }
     }
 
@@ -79,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.main_logout_btn) {  // sign out, go back to StartActivity
             FirebaseAuth.getInstance().signOut();
             toStartActivity();
+        } else if (item.getItemId() == R.id.main_weather_btn) {
+            toWeatherActivity();
         }
         return true;
     }
@@ -87,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(startIntent);
         finish();
+    }
+
+    private void toWeatherActivity() {
+        Intent startIntent = new Intent(MainActivity.this, WeatherActivity.class);
+        startActivity(startIntent);
     }
 
     private void setMainToolBarTitleAsUsername() {
