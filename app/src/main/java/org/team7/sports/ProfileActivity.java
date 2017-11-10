@@ -2,6 +2,8 @@ package org.team7.sports;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -120,12 +123,30 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-//        send_friend_request.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v){
-//                if(user_name.contains(usrid))
-//            }
-//        }
+
+        send_friend_request = findViewById(R.id.send_request);
+        send_friend_request.setOnClickListener((new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                if(friends.contains(myref.getKey())){
+                    send_friend_request.setText("Friend Already");
+                }
+                else {
+                    addFriend(myref);
+                }
+            }
+        }));
+
+    }
+
+    public void addFriend(DatabaseReference ref) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        ref.child("friends").push().setValue(currentUser.getUid());
+
+        DatabaseReference currUserRef;
+        currUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+        currUserRef.child("friends").push().setValue(ref.getKey());
     }
 
 
