@@ -6,21 +6,39 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+
     <RelativeLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="0.95">
+
+        <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:elevation="5dp"-->
+        <!--android:tooltipText="@string/check_weather"-->
+        <!--android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"-->
+        <!--android:id="@+id/toolbar_weather"-->
+        <!--&gt;-->
+
+        <!--</android.support.v7.widget.Toolbar>-->
+
+        <include
+            android:id="@+id/toolbar_weather"
+            layout="@layout/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></include>
 
         <TextView
             android:id="@+id/temperatureTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/forecastTextView"
 
-            android:layout_alignStart="@+id/forecastTextView"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/weatherIconImageView"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="18dp"
             android:ems="10"
             android:text="@string/temperature"
             android:textAlignment="center"
@@ -58,9 +76,9 @@
             android:id="@+id/weatherIconImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/toolbar_weather"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="26dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/na"
             tools:layout_editor_absoluteX="128dp"
@@ -78,12 +96,12 @@
             tools:layout_editor_absoluteY="473dp" />
 
         <Button
+            android:id="@+id/weather_refresh_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/humidityTextView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="39dp"
-            android:onClick="refreshWeather"
             android:text="refresh"
             android:textSize="15dp" />
 

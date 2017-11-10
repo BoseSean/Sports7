@@ -3,7 +3,9 @@ package org.team7.sports;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView temperatureTextView;
     private TextView forecastTextView;
     private TextView humidityTextView;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,43 @@ public class WeatherActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_weather);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+        try {
+            refreshWeather();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Button refreshBtn = (Button) findViewById(R.id.weather_refresh_btn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    refreshWeather();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     // TODO Add auto refresh
     // TODO Add tool bar
-    public void refreshWeather(View view) throws IOException, JSONException {
+    public void refreshWeather() throws IOException, JSONException {
         Date now = new Date();
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd'T'hh-mm-ss");
