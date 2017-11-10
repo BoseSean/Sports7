@@ -1,5 +1,6 @@
 package org.team7.sports;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -100,14 +101,14 @@ public class FriendFragment extends Fragment {
                     }
                 });
 
-//                holder.fView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent friendDetailIntent = new Intent(getActivity(), FriendFragment.class);
-//                        friendDetailIntent.putExtra("this_friend_id", getRef(position).getKey()); //single_game_reference
-//                        startActivity(friendDetailIntent);
-//                    }
-//                });
+                holder.fView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent friendDetailIntent = new Intent(getActivity(), ProfileActivity.class);
+                        friendDetailIntent.putExtra("this_friend_id", getRef(position).getKey()); //single_game_reference
+                        startActivity(friendDetailIntent);
+                    }
+                });
             }
 
         };
