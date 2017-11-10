@@ -42,7 +42,7 @@ public class WeatherActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_weather);
+        toolbar = (Toolbar) findViewById(R.id.create_game_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

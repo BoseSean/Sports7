@@ -13,20 +13,8 @@
         android:layout_gravity="center"
         android:layout_weight="0.95">
 
-        <!--<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:elevation="5dp"-->
-        <!--android:tooltipText="@string/check_weather"-->
-        <!--android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"-->
-        <!--android:id="@+id/toolbar_weather"-->
-        <!--&gt;-->
-
-        <!--</android.support.v7.widget.Toolbar>-->
-
         <include
-            android:id="@+id/toolbar_weather"
+            android:id="@+id/create_game_bar"
             layout="@layout/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></include>
@@ -76,7 +64,7 @@
             android:id="@+id/weatherIconImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar_weather"
+            android:layout_below="@+id/create_game_bar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="26dp"
             android:layout_weight="1"
