@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.95">
+
+        <TextView
+            android:id="@+id/temperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/forecastTextView"
+
+            android:layout_alignStart="@+id/forecastTextView"
+            android:layout_below="@+id/weatherIconImageView"
+            android:layout_marginTop="27dp"
+            android:ems="10"
+            android:text="@string/temperature"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            tools:layout_editor_absoluteX="110dp"
+            tools:layout_editor_absoluteY="135dp" />
+
+        <TextView
+            android:id="@+id/forecastTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/temperatureTextView"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:text="@string/forecast"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            tools:layout_editor_absoluteX="110dp"
+            tools:layout_editor_absoluteY="174dp" />
+
+        <TextView
+            android:id="@+id/humidityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/forecastTextView"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:text="@string/humidity"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            tools:layout_editor_absoluteX="110dp"
+            tools:layout_editor_absoluteY="216dp" />
+
+        <ImageView
+            android:id="@+id/weatherIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/na"
+            tools:layout_editor_absoluteX="128dp"
+            tools:layout_editor_absoluteY="-13dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="184dp"
+            android:layout_height="37dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/gov_logo"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="473dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/humidityTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="39dp"
+            android:onClick="refreshWeather"
+            android:text="refresh"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

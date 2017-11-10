@@ -2,11 +2,10 @@ package org.team7.sports;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.StrictMode;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // TODO: add better keyboard for email and password
         Email = (TextInputLayout) findViewById(R.id.login_email);
         Password = (TextInputLayout) findViewById(R.id.login_password);
         LoginBtn = (Button) findViewById(R.id.login_login_btn);
@@ -39,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // TODO: add validation and handle invalid
                 String email = Email.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
                 if (email.isEmpty()) Email.setError("Email cannot be empty");

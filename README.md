@@ -1,14 +1,13 @@
 # Sports
 
 ## Friends
-TODO design relation for friends.
-TODO implements in firebase
+
 
 ## Games
 TODO figure out how to change menu bar
-TODO design relation for games.
+TODO add GAME CHAT function ********IMPORTANT!!!!!*********
 
 ## Messages
 
 ## Bugs
-LatestMessage updates ONLY ONE side
+TODO BUG: LatestMessage updates ONLY ONE side (emm so far no problem)
