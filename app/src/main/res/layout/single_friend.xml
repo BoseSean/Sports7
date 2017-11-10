@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 <!--TODO: Add timestamp and -->
     <ImageView
-        android:id="@+id/chats_single_image"
+        android:id="@+id/friend_single_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -14,12 +14,12 @@
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
     <TextView
-        android:id="@+id/chats_single_name"
+        android:id="@+id/friend_single_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/chats_single_image"
-        android:layout_toEndOf="@+id/chats_single_image"
-        android:layout_toRightOf="@+id/chats_single_image"
+        android:layout_alignTop="@+id/friend_single_image"
+        android:layout_toEndOf="@+id/friend_single_image"
+        android:layout_toRightOf="@+id/friend_single_image"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/chats_single_image"
+        android:layout_alignTop="@+id/friend_single_image"
         android:layout_marginEnd="14dp"
         android:text="Add Friend" />
 
