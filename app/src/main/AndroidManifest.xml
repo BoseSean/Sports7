@@ -37,6 +37,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".WeatherActivity"></activity>
             android:theme="@style/AppTheme" />
+
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".ViewGameActivity" />
         <activity android:name=".CreateGameActivity" />
     </application>

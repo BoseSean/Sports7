@@ -14,7 +14,7 @@
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
     <TextView
-        android:id="@+id/friend_single_name"
+        android:id="@+id/FGfriend_single_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/friend_single_image"
@@ -28,16 +28,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/friend_single_image"
-        android:layout_alignLeft="@+id/friend_single_name"
-        android:layout_alignStart="@+id/friend_single_name"
+        android:layout_alignLeft="@+id/FGfriend_single_name"
+        android:layout_alignStart="@+id/FGfriend_single_name"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/chats_single_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/friend_single_name"
-        android:layout_alignBottom="@+id/friend_single_name"
+        android:layout_alignBaseline="@+id/FGfriend_single_name"
+        android:layout_alignBottom="@+id/FGfriend_single_name"
         android:layout_alignParentEnd="true"
         android:text="TextView" />
 

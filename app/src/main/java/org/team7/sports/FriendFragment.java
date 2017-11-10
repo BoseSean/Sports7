@@ -83,10 +83,8 @@ public class FriendFragment extends Fragment {
 
             protected void onBindViewHolder(final FriendListViewHolder holder, final int position, Account model) { // int positon
                 holder.setFriendName(model.getName());
-                Log.d("dcdscdscdsc", "herereemmee");
 
                 DatabaseReference friend_reference = AccountDatabase.child(getRef(position).getKey());
-                Log.d("hahssssa", "item count is " + friendRecyclerViewAdapter.getItemCount());
 
                 friend_reference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -104,13 +102,13 @@ public class FriendFragment extends Fragment {
                 holder.fView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent friendDetailIntent = new Intent(getActivity(), ProfileActivity.class);
-                        friendDetailIntent.putExtra("this_friend_id", getRef(position).getKey()); //single_game_reference
-                        startActivity(friendDetailIntent);
+                        Intent gameDetailIntent = new Intent(getActivity(), ProfileActivity.class);
+                        gameDetailIntent.putExtra("this_friend_id", getRef(position).getKey()); //single_game_reference
+                        startActivity(gameDetailIntent);
                     }
                 });
-            }
 
+            }
         };
         friendList.setAdapter(friendRecyclerViewAdapter);
 
@@ -123,7 +121,7 @@ public class FriendFragment extends Fragment {
             public FriendListViewHolder(View itemView) {
                 super(itemView);
                 fView = itemView;
-                friendListView = fView.findViewById(R.id.friend_single_name);
+                friendListView = fView.findViewById(R.id.FGfriend_single_name);
             }
 
             public void setFriendName(String gFriendName) {
