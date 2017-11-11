@@ -129,6 +129,7 @@ public class ChatActivity extends AppCompatActivity {
         messageList.setLayoutManager(messageLinearLayoutManager);
 
         thatUserId = getIntent().getStringExtra("that_user_id");
+
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (!isGroup) mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
         // TODO
