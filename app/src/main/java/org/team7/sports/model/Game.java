@@ -20,7 +20,7 @@ public class Game {
     private String passwd;
     private String gameId;
 
-    public Game(String password, String gameid, Boolean isPrivate, String name, String typeofsport, String location, String date, String starttime, int numberofplayer, String hName, String hEmail) {
+    public Game(String password, String gameid, Boolean isPrivate, String name, String typeofsport, String location, String date, String starttime, int numberofplayer, String hostName, String hEmail) {
         this.name = name;
         this.gameId = gameid;
         this.typeOfSport = typeofsport;
@@ -29,7 +29,7 @@ public class Game {
         this.startTime = starttime;
         this.numberOfPlayer = numberofplayer;
         this.hostEmail = hEmail;
-        this.hostName = hName;
+        this.hostName = hostName;
         //this.players = new ArrayList<GamePlayer>(numberOfPlayer);
         //players.add(host);
         this.isPrivate = isPrivate;

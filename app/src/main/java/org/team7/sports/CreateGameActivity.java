@@ -34,18 +34,27 @@ public class CreateGameActivity extends AppCompatActivity {
     private TextInputLayout mNumberofppl;
     private Button mSubmit;
     private Button mCancel;
-    private String hName;
+    private String hostName;
     private CheckBox mPrivate;
     private ProgressDialog RegisterProgress;
     private TextInputLayout mLocation;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private Toolbar toolbar;
+    private boolean isPrivate;
+    private String date;
+    private String location;
+    private String sportType;
+    private String time;
+    private String email;
+    private int numberOfppl;
+    private String gameName;
+    private String passwd;
 
 
     public void createGame(String password, Boolean isPrivate, String name,
                            String typeofsport, String location, String date, String starttime,
-                           int numberofplayer, String hName, String hEmail) {
+                           int numberofplayer, String hostName, String hEmail) {
         if (name.equals("") || typeofsport.equals("") || location.equals("") || date.equals("") || starttime.equals("")) {
             Toast.makeText(CreateGameActivity.this, "need to fill in all the field", Toast.LENGTH_LONG).show();
             return;
@@ -68,7 +77,7 @@ public class CreateGameActivity extends AppCompatActivity {
             return;
         }
 
-            Game g = new Game(password, "null", isPrivate, name, typeofsport, location, date, starttime, numberofplayer, hName, hEmail);
+        Game g = new Game(password, "null", isPrivate, name, typeofsport, location, date, starttime, numberofplayer, hostName, hEmail);
 
             database = FirebaseDatabase.getInstance();
             final FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,7 +85,8 @@ public class CreateGameActivity extends AppCompatActivity {
             String gameid = myRef.push().getKey();
             myRef = myRef.child(gameid);
             g.setGameId(gameid);
-            g.setHostName(hName);
+        g.setHostName(hostName);
+//            Log.d("wtf",g.getHostName());
 
             myRef.setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
                 @Override
@@ -138,29 +148,35 @@ public class CreateGameActivity extends AppCompatActivity {
 
             public void onClick(View view) {
 
-
-                String gameName = mGameName.getEditText().getText().toString();
-                String sportType = mSportType.getEditText().getText().toString();
-                int numberOfppl = 0;
+                gameName = mGameName.getEditText().getText().toString();
+                sportType = mSportType.getEditText().getText().toString();
+                numberOfppl = 0;
                 if (mNumberofppl.getEditText().getText().toString().equals("") == false)
                     numberOfppl = Integer.parseInt(mNumberofppl.getEditText().getText().toString());
-                String passwd;
-                boolean isPrivate;
-                String date = mDate.getEditText().getText().toString();
-                String time = mStartTime.getEditText().getText().toString();
-                String location = mLocation.getEditText().getText().toString();
+
+                date = mDate.getEditText().getText().toString();
+                time = mStartTime.getEditText().getText().toString();
+                location = mLocation.getEditText().getText().toString();
                 FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUse.getUid();
-                String email = currentUse.getEmail();
+                email = currentUse.getEmail();
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("name");
-                myRef.addValueEventListener(new ValueEventListener() {
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("ddddd", dataSnapshot.getKey());
-                        if (dataSnapshot.getKey() == "name") {
-                            hName = dataSnapshot.getValue().toString();
-                            Log.d("testttt", hName);
+                        if (dataSnapshot.getKey().equals("name")) {
+                            hostName = dataSnapshot.getValue().toString();
                         }
+
+                        if (mPrivate.isChecked()) {
+                            isPrivate = true;
+                            passwd = mPasswd.getEditText().getText().toString();
+                        } else {
+                            isPrivate = false;
+                            passwd = "n";
+                        }
+                        createGame(passwd, isPrivate, gameName, sportType, location, date, time, numberOfppl, hostName, email);
 
                     }
 
@@ -169,14 +185,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
                     }
                 });
-                if (mPrivate.isChecked()) {
-                    isPrivate = true;
-                    passwd = mPasswd.getEditText().getText().toString();
-                } else {
-                    isPrivate = false;
-                    passwd = "n";
-                }
-                createGame(passwd, isPrivate, gameName, sportType, location, date, time, numberOfppl, hName, email);
+
 
             }
 
