@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="10dp"
-            android:hint="Enter date"
+            android:hint="Enter date as dd/mm/yyyy"
             android:inputType="date" />
     </android.support.design.widget.TextInputLayout>
 
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="10dp"
-            android:hint="Enter start time"
+            android:hint="Enter start time as XX:XX"
             android:inputType="time" />
     </android.support.design.widget.TextInputLayout>
 
