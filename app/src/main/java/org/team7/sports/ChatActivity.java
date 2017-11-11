@@ -48,6 +48,7 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference userChatDatabase;
     private DatabaseReference gameDatabase;
     private DatabaseReference accountsDatabase;
+    private LinearLayoutManager messageLinearLayoutManager;
     private boolean isGroup;
     private RecyclerView messageList;
     private ImageButton sendBtn;
@@ -63,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);  // modify here
         toolbar = findViewById(R.id.chat_tool_bar);
+
 
         setMainToolBarTitleAsUsername();
 
@@ -127,7 +129,7 @@ public class ChatActivity extends AppCompatActivity {
         });
         messageList = findViewById(R.id.chat_messages_list);
         messageList.setHasFixedSize(true);
-        LinearLayoutManager messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         messageLinearLayoutManager.setStackFromEnd(true);
         messageList.setLayoutManager(messageLinearLayoutManager);
 
@@ -162,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
                             .setLifecycleOwner(this)
                             .build();
         }
-        FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
+        final FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
 
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -234,6 +236,27 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+
+        messagesRecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = messagesRecyclerViewAdapter.getItemCount();
+                int lastVisiblePosition =
+                        messageLinearLayoutManager.findLastVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    messageList.scrollToPosition(positionStart + 2);
+                }
+            }
+        }
+        );
+
+        messagesRecyclerViewAdapter.startListening();
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
 
@@ -273,7 +296,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
