@@ -20,7 +20,7 @@ import java.util.Date;
 
 
 public class WeatherUtil {
-    public static String getWeatherForecast() throws JSONException, IOException {
+    public static JSONObject getWeatherForecast() throws JSONException, IOException {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -49,7 +49,7 @@ public class WeatherUtil {
 
         JSONObject items = new JSONObject(myArray.get(0).toString());
         JSONObject general = new JSONObject(items.get("general").toString());
-        return (general.get("forecast")).toString();
+        return general;
     }
     public static int getIcon(String forecast) {
         switch (forecast) {
@@ -122,74 +122,81 @@ public class WeatherUtil {
 
     }
 
-    public static String getRecommendation(String s) {
+    public static int isGoodWeather(String s) {
         switch (s) {
             case "Mist":
-                return "suitable for sports";
+                return 1;
             case "Cloudy":
-                return "suitable for sports";
+                return 1;
 
             case "Drizzle":
-                return "not suitable for sports";
+                return -1;
 
             case "Fair(Day)":
-                return "suitable for sports";
+                return 1;
 
             case "Fog":
-                return "not suitable for sports";
+                return -1;
             case "Fair(Night)":
-                return "suitable for sports";
+                return 1;
             case "Fair & Warm":
-                return "not suitable for sports";
+                return -1;
             case "Heavy Thundery Showers with Gusty Winds":
-                return "not suitable for sports";
+                return -1;
             case "Heavy Rain":
-                return "not suitable for sports";
+                return -1;
             case "Heavy Showers":
-                return "not suitable for sports";
+                return -1;
             case "Hazy":
-                return "not suitable for sports";
+                return -1;
             case "Slightly Hazy":
-                return "not suitable for sports";
+                return -1;
             case "Light Rain":
-                return "not suitable for sports";
+                return -1;
             case "Light Showers":
-                return "not suitable for sports";
+                return -1;
             case "Overcast":
-                return "not suitable for sports";
+                return -1;
             case "Partly Cloudy(Day)":
-                return "suitable for sports";
+                return 1;
             case "Partly Cloudy(Night)":
-                return "suitable for sports";
+                return 1;
             case "Passing Showers":
-                return "not suitable for sports";
+                return -1;
             case "Moderate Rain":
-                return "not suitable for sports";
+                return -1;
             case "Showers":
-                return "not suitable for sports";
+                return -1;
             case "Strong Winds, Rain":
-                return "not suitable for sports";
+                return -1;
             case "Strong Winds, Showers":
-                return "not suitable for sports";
+                return -1;
             case "Sunny":
-                return "suitable for sports";
+                return 1;
             case "Strong Winds":
-                return "not suitable for sports";
+                return -1;
             case "Thundery Showers":
-                return "not suitable for sports";
+                return -1;
             case "Windy,Cloudy":
-                return "not suitable for sports";
+                return -1;
             case "Windy":
-                return "not suitable for sports";
+                return -1;
             case "Windy, Fair":
-                return "suitable for sports";
+                return 1;
             case "Windy, Rain":
-                return "not suitable for sports";
+                return -1;
             case "Windy, Showers":
-                return "not suitable for sports";
+                return -1;
             default:
-                return "unknown";
+                return 0;
         }
+    }
+    public static String giveRecommendation(int high,int low,int weatherforecast){
+        if(high<=38&&low>=0&&weatherforecast==1){
+            return "suitable for outdoor sports";
+        }
+        else
+            return "not suitable for outdoor sports";
     }
 }
 
