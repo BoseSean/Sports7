@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashSet;
 
@@ -51,11 +51,22 @@ public class ProfileActivity extends AppCompatActivity {
         usrid = currentUse.getUid();
 
         myref = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users")
-                .child(usrid).child("friends");
-        if(ref.getKey().contains(friendId)){
-            send_friend_request.setText("Friend Already");
-        }
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid).child("friends");
+//        if(ref.orderByValue().equalTo(friendId).){
+//            send_friend_request.setText("You are already friend");
+//        }
+        ref.orderByValue().equalTo(friendId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null)
+                    send_friend_request.setText("You are already friend");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ref.keepSynced(true);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
