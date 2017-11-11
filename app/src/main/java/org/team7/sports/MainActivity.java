@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.pager_game);
         tabLayout.getTabAt(2).setIcon(R.drawable.pager_team);
         tabLayout.getTabAt(3).setIcon(R.drawable.pager_friend);
+
     }
 
     @Override
