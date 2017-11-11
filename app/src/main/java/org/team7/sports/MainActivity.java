@@ -1,6 +1,9 @@
 package org.team7.sports;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SectionPagerAdapter sectionPagerAdapter;
     private TabLayout tabLayout;
-    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (!isNetworkConnected()) {
+            Toast.makeText(this, "No Internet connection!", Toast.LENGTH_SHORT).show();
+        }
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
@@ -141,5 +146,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

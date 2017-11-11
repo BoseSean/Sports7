@@ -9,5 +9,4 @@
 ## Messages
 
 ## Bugs
-TODO check network connection
 
