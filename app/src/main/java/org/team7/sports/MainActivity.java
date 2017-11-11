@@ -24,9 +24,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import static org.team7.sports.Util.WeatherUtil.getRecommendation;
 import static org.team7.sports.Util.WeatherUtil.getWeatherForecast;
 import static org.team7.sports.Util.WeatherUtil.giveRecommendation;
+import static org.team7.sports.Util.WeatherUtil.isGoodWeather;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject temperature = new JSONObject(general.get("temperature").toString());
                 int highTemperature=temperature.getInt("high");
                 int lowTemperature=temperature.getInt("low");
-                int goodWeather = getRecommendation(weather);
+                int goodWeather = isGoodWeather(weather);
 
                 //display in long period of time
                 Toast.makeText(getApplicationContext(), weather+"\nhighest temperature is "+highTemperature+"°C\nlowest temperature is "+lowTemperature+"°C", Toast.LENGTH_LONG).show();

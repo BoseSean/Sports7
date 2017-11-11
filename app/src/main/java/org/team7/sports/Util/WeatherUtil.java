@@ -122,7 +122,7 @@ public class WeatherUtil {
 
     }
 
-    public static int getRecommendation(String s) {
+    public static int isGoodWeather(String s) {
         switch (s) {
             case "Mist":
                 return 1;
@@ -193,10 +193,10 @@ public class WeatherUtil {
     }
     public static String giveRecommendation(int high,int low,int weatherforecast){
         if(high<=38&&low>=0&&weatherforecast==1){
-            return "suitable for sports";
+            return "suitable for outdoor sports";
         }
         else
-            return "not suitable for sports";
+            return "not suitable for outdoor sports";
     }
 }
 
