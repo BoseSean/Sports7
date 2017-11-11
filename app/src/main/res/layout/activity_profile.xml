@@ -35,32 +35,6 @@
         android:textColor="@android:color/white"
         android:textSize="40sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user_name"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/count_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total Friends:"
-            android:textColor="?attr/colorButtonNormal"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/friend_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/count_label"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-
     <Button
         android:id="@+id/send_request"
         android:layout_width="wrap_content"

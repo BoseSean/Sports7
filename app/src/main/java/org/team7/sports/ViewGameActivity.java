@@ -248,7 +248,7 @@ public class ViewGameActivity extends AppCompatActivity {
 
     public void joinGame(DatabaseReference ref) {
         String inputPasswd = mPasswd.getEditText().getText().toString();
-        ref.child("nowNumberOfPlayer").addValueEventListener(new ValueEventListener() {
+        ref.child("nowNumOfPlayer").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());

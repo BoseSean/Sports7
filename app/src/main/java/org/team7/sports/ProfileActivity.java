@@ -37,7 +37,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         fUsername = findViewById(R.id.user_name);
-        fFriendcount = findViewById(R.id.friend_count);
         friendId = getIntent().getStringExtra("this_friend_id");
         send_friend_request = findViewById(R.id.send_request);
         message_user = findViewById(R.id.message_user);
@@ -109,10 +108,6 @@ public class ProfileActivity extends AppCompatActivity {
                         fUsername.setText(dataSnapshot.getValue().toString());
                         break;
                     }
-                    case "numoffriends": {
-                        fFriendcount.setText("2");
-                        break;
-                    }
 
                 }
 
@@ -123,10 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (dataSnapshot.getKey()) {
                     case "name": {
                         fUsername.setText(dataSnapshot.getValue().toString());
-                        break;
-                    }
-                    case "numoffriends": {
-                        fFriendcount.setText("2");
                         break;
                     }
 
@@ -165,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 if(friends.contains(myref.getKey())){
-                    send_friend_request.setText("Friend Already");
+                    send_friend_request.setText("You are already friend");
                 }
                 else {
                     addFriend(myref);
