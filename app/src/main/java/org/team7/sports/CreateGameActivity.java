@@ -49,20 +49,25 @@ public class CreateGameActivity extends AppCompatActivity {
         if (name.equals("") || typeofsport.equals("") || location.equals("") || date.equals("") || starttime.equals("")) {
             Toast.makeText(CreateGameActivity.this, "need to fill in all the field", Toast.LENGTH_LONG).show();
             return;
-        } else if (isPrivate && password == "") {
+        }
+        if (isPrivate && password.equals("")) {
             Toast.makeText(CreateGameActivity.this, "need to fill in all the field", Toast.LENGTH_LONG).show();
             return;
-        } else if (isDateValid(date) == false) {
+        }
+        if (isDateValid(date) == false) {
             Toast.makeText(CreateGameActivity.this, "wrong date format", Toast.LENGTH_LONG).show();
             return;
-        } else if (isTimeValid(starttime) == false) {
+        }
+        if (isTimeValid(starttime) == false) {
             Toast.makeText(CreateGameActivity.this, "wrong time format", Toast.LENGTH_LONG).show();
             return;
-        } else if (numberofplayer < 2) {
+        }
+        if (numberofplayer < 2) {
             Log.d("number", "number of players : " + numberofplayer);
             Toast.makeText(CreateGameActivity.this, "At least two players required", Toast.LENGTH_LONG).show();
             return;
-        } else {
+        }
+
             Game g = new Game(password, "null", isPrivate, name, typeofsport, location, date, starttime, numberofplayer, hName, hEmail);
 
             database = FirebaseDatabase.getInstance();
@@ -93,7 +98,7 @@ public class CreateGameActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+
 
     }
 

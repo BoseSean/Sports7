@@ -264,13 +264,16 @@ public class ViewGameActivity extends AppCompatActivity {
             Toast.makeText(ViewGameActivity.this, "You have already joined the game", Toast.LENGTH_LONG).show();
             return;
 
-        } else if (isPrivate && !inputPasswd.equals(password)) {
+        }
+        if (isPrivate && !inputPasswd.equals(password)) {
             Toast.makeText(ViewGameActivity.this, "Your password is incorrect", Toast.LENGTH_LONG).show();
             return;
-        } else if (players.size() <= nowNumOfppl) {
+        }
+        if (players.size() <= nowNumOfppl) {
             Toast.makeText(ViewGameActivity.this, "This game already has maximum number of players", Toast.LENGTH_LONG).show();
             return;
-        } else {
+        }
+
             FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
             String usrid = currentUse.getUid();
             ref.child("player").push().setValue(usrid);
@@ -283,7 +286,6 @@ public class ViewGameActivity extends AppCompatActivity {
             Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
 
 
-        }
     }
 
 
