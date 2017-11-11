@@ -42,14 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: add internet checking
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Authentication
         mAuth = FirebaseAuth.getInstance();
 
-        // TODO: change to UserName/ProfileImage or both
         mainToolBar = findViewById(R.id.main_tool_bar);
 
         setSupportActionBar(mainToolBar);

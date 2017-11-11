@@ -6,7 +6,7 @@
 
     android:fadingEdge="none"
     android:orientation="vertical">
-    <!--TODO: Add timestamp and -->
+
 
     <ImageView
         android:id="@+id/friend_single_image"

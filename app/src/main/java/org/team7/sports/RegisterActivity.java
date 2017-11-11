@@ -49,13 +49,15 @@ public class RegisterActivity extends AppCompatActivity {
         RegisterBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // TODO: add exception handlling on null input of each fields,
-                // TODO: add validation and handle invalide
                 String email = Email.getEditText().getText().toString();
                 String username = Username.getEditText().getText().toString();
                 String password = Password.getEditText().getText().toString();
 
-                if(!TextUtils.isEmpty((email)) || !TextUtils.isEmpty(username) || !TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(email)) Email.setError("Email cannot be empty");
+                else if (TextUtils.isEmpty(username)) Username.setError("Username cannot be empty");
+                else if (TextUtils.isEmpty(password)) Password.setError("Password cannot be empty");
+                else if (!isEmailValid(email)) Email.setError("Email is invalid");
+                else {
                     RegisterProgress.setTitle(R.string.registering);
                     RegisterProgress.setCanceledOnTouchOutside(false);
                     RegisterProgress.show();
@@ -64,6 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
     }
 
     private void registerNewUser(String email, final String username, String password){
@@ -96,8 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    // TODO: add detailed reason for registration failure.
-                    Toast.makeText(RegisterActivity.this,R.string.register_failed, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     RegisterProgress.dismiss();
                 }
             }

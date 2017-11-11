@@ -78,12 +78,6 @@ public class CreateGameActivity extends AppCompatActivity {
             g.setGameId(gameid);
             g.setHostName(hName);
 
-            //TODO Add toolbar to create game page
-//        toolbar = (Toolbar) findViewById(R.id.create_game_bar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Game Details");
-
             myRef.setValue(g).addOnCompleteListener(this, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

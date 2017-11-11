@@ -251,7 +251,8 @@ public class ViewGameActivity extends AppCompatActivity {
         ref.child("nowNumOfPlayer").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());
+                if (dataSnapshot.getValue() != null)
+                    nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());
             }
 
             @Override

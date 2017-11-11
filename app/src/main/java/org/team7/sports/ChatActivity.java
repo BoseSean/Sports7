@@ -135,7 +135,7 @@ public class ChatActivity extends AppCompatActivity {
 
         thisUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (!isGroup) mCurrentChatThread = hashChatThread(thatUserId, thisUserId);
-        // TODO
+
         userChatDatabase = FirebaseDatabase.getInstance().getReference().child("UserChats");
         if (!isGroup) {
             chatDatabase = messageBaseDatabase.child(mCurrentChatThread);
@@ -282,7 +282,7 @@ public class ChatActivity extends AppCompatActivity {
         HashMap messageSnapMap = new HashMap();
         HashMap userChatMap = new HashMap();
         messageSnapMap.put("latestMessage", message);
-        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+        messageSnapMap.put("lastTime", ServerValue.TIMESTAMP);
         messageSnapMap.put("isGroup", true);
 
 
@@ -303,7 +303,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private void send_message(String message) {
 
-        // TODO improve data consistency of pushing new messages
         HashMap messageMap = new HashMap();
         messageMap.put("message", message);
         messageMap.put("sender", thisUserId);
@@ -366,7 +365,6 @@ public class ChatActivity extends AppCompatActivity {
             mView = itemView;
         }
 
-        // TODO public void setProfile()
 
         public void setTime(long time) {
             TextView userNameView = mView.findViewById(R.id.text_message_time);
@@ -388,7 +386,6 @@ public class ChatActivity extends AppCompatActivity {
             mView = itemView;
         }
 
-        // TODO public void setProfile()
 
         public void setSenderName(String name) {
             TextView userNameView = mView.findViewById(R.id.text_message_name);
