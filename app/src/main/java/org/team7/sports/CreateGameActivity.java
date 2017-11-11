@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +58,8 @@ public class CreateGameActivity extends AppCompatActivity {
         } else if (isTimeValid(starttime) == false) {
             Toast.makeText(CreateGameActivity.this, "wrong time format", Toast.LENGTH_LONG).show();
             return;
-        } else if (numberofplayer < 2 || TextUtils.isEmpty(mNumberofppl.getEditText().getText().toString()) == false) {
+        } else if (numberofplayer < 2) {
+            Log.d("number", "number of players : " + numberofplayer);
             Toast.makeText(CreateGameActivity.this, "At least two players required", Toast.LENGTH_LONG).show();
             return;
         } else {
@@ -153,12 +153,13 @@ public class CreateGameActivity extends AppCompatActivity {
                 FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = currentUse.getUid();
                 String email = currentUse.getEmail();
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("name");
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d("ddddd", dataSnapshot.getKey());
                         if (dataSnapshot.getKey() == "name") {
-                            hName = dataSnapshot.child("name").getValue().toString();
+                            hName = dataSnapshot.getValue().toString();
                             Log.d("testttt", hName);
                         }
 

@@ -274,7 +274,7 @@ public class ViewGameActivity extends AppCompatActivity {
             FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
             String usrid = currentUse.getUid();
             ref.child("player").push().setValue(usrid);
-            ref.child("nowNumberOfPlayer").setValue(nowNumOfppl + 1);
+            ref.child("nowNumOfPlayer").setValue(nowNumOfppl + 1);
             ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
             HashMap<String, String> hmap = new HashMap<String, String>();
             hmap.put("gameName", gameName);
