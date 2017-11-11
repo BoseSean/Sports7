@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -38,6 +41,7 @@ public class FriendFragment extends Fragment {
     private FirebaseUser currentUse;
     private Button AddFriend;
     private Button DeleteFriend;
+    //private SearchView sv = (SearchView) search_bar.getActionView();
 
     public FriendFragment() {
         // Required empty public constructor
@@ -49,16 +53,12 @@ public class FriendFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_friend, container, false);
-
         mAuth = FirebaseAuth.getInstance();
         currentUse = mAuth.getCurrentUser();
-
         friendList = mainView.findViewById(R.id.friend_list);
         friendList.setHasFixedSize(true);
         friendList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
         AccountDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
         return mainView;
     }
 
@@ -74,7 +74,6 @@ public class FriendFragment extends Fragment {
                 .build();
 
         friendRecyclerViewAdapter = new FirebaseRecyclerAdapter<Account, FriendListViewHolder>(friendRecyclerOptions) {
-
             public FriendListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.single_friend, parent, false);
@@ -107,14 +106,18 @@ public class FriendFragment extends Fragment {
                         startActivity(gameDetailIntent);
                     }
                 });
-
             }
         };
-        friendList.setAdapter(friendRecyclerViewAdapter);
+
+//        friendList.setAdapter(friendRecyclerViewAdapter);
+//
+//        mInput = (SearchView)findViewById(R.id.search_bar);
+//        mInput.getText().toString();
+
 
     }
 
-        public static class FriendListViewHolder extends RecyclerView.ViewHolder {
+    public static class FriendListViewHolder extends RecyclerView.ViewHolder {
             public View fView;
             TextView friendListView;
 
@@ -129,6 +132,7 @@ public class FriendFragment extends Fragment {
                 friendListView.setText(StringUtils.abbreviate(gFriendName, 26));
             }
         }
+
     }
 
 

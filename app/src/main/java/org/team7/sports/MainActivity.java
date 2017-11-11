@@ -20,11 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 import static org.team7.sports.Util.WeatherUtil.getRecommendation;
 import static org.team7.sports.Util.WeatherUtil.getWeatherForecast;
+import static org.team7.sports.Util.WeatherUtil.giveRecommendation;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -72,12 +74,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setMainToolBarTitleAsUsername();
             try {
-                String weather = getWeatherForecast();
-                String recomendation = getRecommendation(weather);
+                JSONObject general = getWeatherForecast();
+                String weather = general.get("forecast").toString();
+                JSONObject temperature = new JSONObject(general.get("temperature").toString());
+                int highTemperature=temperature.getInt("high");
+                int lowTemperature=temperature.getInt("low");
+                int goodWeather = getRecommendation(weather);
 
                 //display in long period of time
-                Toast.makeText(getApplicationContext(), weather, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), recomendation, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), weather+"\nhighest temperature is "+highTemperature+"°C\nlowest temperature is "+lowTemperature+"°C", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), giveRecommendation(highTemperature,lowTemperature,goodWeather), Toast.LENGTH_LONG).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();
