@@ -44,13 +44,13 @@
 
         <TextView
             android:id="@+id/Date_TV"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
 
             android:layout_alignBaseline="@+id/textView17"
             android:layout_alignBottom="@+id/textView17"
-            android:layout_alignEnd="@+id/textView16"
             android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/textView17"
             android:text="Date is"
             android:textSize="16sp" />
 
@@ -102,49 +102,6 @@
             android:text="host email is"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/join_Game_B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputEditText"
-            android:layout_marginTop="15dp"
-            android:layout_toStartOf="@+id/host_name_TV"
-            android:text="Join" />
-
-
-        <Button
-            android:id="@+id/chat_Game_B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/passwd_input_TIL"
-            android:layout_below="@+id/passwd_input_TIL"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="15dp"
-            android:text="Chat" />
-
-        <TextView
-            android:id="@+id/isPrivate_TV"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-
-            android:layout_above="@+id/textInputEditText"
-            android:layout_alignEnd="@+id/Sport_type_TV"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/textView11"
-            android:text="TextView"
-            android:textSize="16sp" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/passwd_input_TIL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/join_Game_B"
-            android:layout_alignStart="@+id/join_Game_B"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="10dp">
-
-        </android.support.design.widget.TextInputLayout>
 
         <!--<TextView-->
         <!--android:id="@+id/textView12"-->
@@ -160,8 +117,6 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView12"
-            android:layout_below="@+id/textView12"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="15dp"
             android:text="Game Name:"
@@ -245,16 +200,49 @@
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textSize="16sp" />
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/textInputEditText"
+        <TextView
+            android:id="@+id/isPrivate_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/passwd_input_TIL"
+            android:layout_toEndOf="@+id/textView8"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwd_input_TIL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView12"
+            android:layout_alignStart="@+id/textView11"
             android:layout_below="@+id/textView11"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:hint="if private,enter password"
-            android:inputType="none" />
+            android:layout_marginTop="16dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="If private enter password" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/join_Game_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passwd_input_TIL"
+            android:layout_marginTop="12dp"
+            android:layout_toStartOf="@+id/Sport_type_TV"
+            android:text="JOIN"
+            tools:text="JOIN" />
+
+        <Button
+            android:id="@+id/chat_Game_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/join_Game_B"
+            android:layout_alignBottom="@+id/join_Game_B"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="23dp"
+            android:text="CHAT"
+            tools:text="Chat" />
 
     </RelativeLayout>
 </RelativeLayout>

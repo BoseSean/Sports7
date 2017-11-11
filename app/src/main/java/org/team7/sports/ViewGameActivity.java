@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.team7.sports.model.Game;
 
@@ -48,7 +49,7 @@ public class ViewGameActivity extends AppCompatActivity {
     private DatabaseReference myref;
     private String usrid;
     private Toolbar toolbar;
-
+    private int nowNumOfppl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,7 @@ public class ViewGameActivity extends AppCompatActivity {
         mGameName = findViewById(R.id.game_name_TV);
         mSportType = findViewById(R.id.Sport_type_TV);
         mDate = findViewById(R.id.Date_TV);
-        mStartTime = findViewById(R.id.game_name_TV);
+        mStartTime = findViewById(R.id.start_time_TV);
         mLocation = findViewById(R.id.Location_TV);
         mHostName = findViewById(R.id.host_name_TV);
         mHostEmail = findViewById(R.id.host_email_TV);
@@ -65,9 +66,15 @@ public class ViewGameActivity extends AppCompatActivity {
         mPasswd = findViewById(R.id.passwd_input_TIL);
         mChatGame = findViewById(R.id.chat_Game_B);
 
-        toolbar = (Toolbar) findViewById(R.id.create_game_bar);
+        toolbar = findViewById(R.id.create_game_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         getSupportActionBar().setTitle("Game Details");
 
 
@@ -148,6 +155,12 @@ public class ViewGameActivity extends AppCompatActivity {
                     }
                     case "passwd": {
                         password = dataSnapshot.getValue().toString();
+                        break;
+                    }
+                    case "startTime": {
+                        String startTime = dataSnapshot.getValue().toString();
+                        mStartTime.setText(startTime);
+                        break;
                     }
                 }
             }
@@ -175,6 +188,7 @@ public class ViewGameActivity extends AppCompatActivity {
                         if (dataSnapshot.getValue().toString().equalsIgnoreCase("true")) {
                             mIsPrivate.setText("Private Game");
                             isPrivate = true;
+
                         } else mIsPrivate.setText("Public Game");
                     }
                     case "location": {
@@ -226,45 +240,51 @@ public class ViewGameActivity extends AppCompatActivity {
         mJoinGame = findViewById(R.id.join_Game_B);
         mJoinGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String inputPasswd = mPasswd.getEditText().getText().toString();
-                Log.d("joinjoin", inputPasswd + ' ' + password);
-
-
-                if (players.contains(usrid)) {
-                    Toast.makeText(ViewGameActivity.this, "you have already joined this game", Toast.LENGTH_LONG).show();
-
-                } else if (isPrivate == true) {
-                    if (inputPasswd.equals(password)) {
-                        Log.d("logic", "11");
-                        joinGame(myref);
-                        Log.d("joinjoin", inputPasswd + ' ' + password);
-                        Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
-                    } else {
-                        Log.d("logic", "12");
-                        Toast.makeText(ViewGameActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Log.d("logic", "13");
-                    joinGame(myref);
-                    Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
-
-
-                }
+                joinGame(myref);
 
             }
         });
     }
 
     public void joinGame(DatabaseReference ref) {
-        FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
-        String usrid = currentUse.getUid();
-        ref.child("player").push().setValue(usrid);
-        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
-        HashMap<String, String> hmap = new HashMap<String, String>();
-        hmap.put("gameName", gameName);
-        hmap.put("sportType", gameType);
-        ref.child("participated games").push().setValue(hmap);
+        String inputPasswd = mPasswd.getEditText().getText().toString();
+        ref.child("nowNumOfPlayer").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        if (players.contains(usrid)) {
+            Toast.makeText(ViewGameActivity.this, "You have already joined the game", Toast.LENGTH_LONG).show();
+            return;
+
+        } else if (isPrivate && !inputPasswd.equals(password)) {
+            Toast.makeText(ViewGameActivity.this, "Your password is incorrect", Toast.LENGTH_LONG).show();
+            return;
+        } else if (players.size() <= nowNumOfppl) {
+            Toast.makeText(ViewGameActivity.this, "This game already has maximum number of players", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+            String usrid = currentUse.getUid();
+            ref.child("player").push().setValue(usrid);
+            ref.child("nowNumberOfPlayer").setValue(nowNumOfppl + 1);
+            ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
+            HashMap<String, String> hmap = new HashMap<String, String>();
+            hmap.put("gameName", gameName);
+            hmap.put("sportType", gameType);
+            ref.child("participated games").push().setValue(hmap);
+            Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
+
+
+        }
     }
+
 
 }
