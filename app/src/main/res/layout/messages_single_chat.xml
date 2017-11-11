@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 <!--TODO: Add timestamp and -->
     <ImageView
-        android:id="@+id/chats_single_image"
+        android:id="@+id/friend_single_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -14,12 +14,12 @@
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
     <TextView
-        android:id="@+id/chats_single_name"
-        android:layout_width="match_parent"
+        android:id="@+id/FGfriend_single_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/chats_single_image"
-        android:layout_toEndOf="@+id/chats_single_image"
-        android:layout_toRightOf="@+id/chats_single_image"
+        android:layout_alignTop="@+id/friend_single_image"
+        android:layout_toEndOf="@+id/friend_single_image"
+        android:layout_toRightOf="@+id/friend_single_image"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -27,17 +27,17 @@
         android:id="@+id/chats_single_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/chats_single_image"
-        android:layout_alignLeft="@+id/chats_single_name"
-        android:layout_alignStart="@+id/chats_single_name"
+        android:layout_alignBottom="@+id/friend_single_image"
+        android:layout_alignLeft="@+id/FGfriend_single_name"
+        android:layout_alignStart="@+id/FGfriend_single_name"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/chats_single_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/chats_single_name"
-        android:layout_alignBottom="@+id/chats_single_name"
+        android:layout_alignBaseline="@+id/FGfriend_single_name"
+        android:layout_alignBottom="@+id/FGfriend_single_name"
         android:layout_alignParentEnd="true"
         android:text="TextView" />
 

@@ -130,7 +130,7 @@
             android:layout_above="@+id/textInputEditText"
             android:layout_alignEnd="@+id/Sport_type_TV"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/textView11"
+            android:layout_toEndOf="@+id/textView1"
             android:text="TextView"
             android:textSize="16sp" />
 
@@ -235,7 +235,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView10"
@@ -250,7 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView12"
-            android:layout_below="@+id/textView11"
+            android:layout_below="@+id/textView1"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:hint="if private,enter password"

@@ -190,7 +190,7 @@ public class MessageFragment extends Fragment {
         }
 
         public void setSenderName(String name) {
-            TextView userNameView = mView.findViewById(R.id.chats_single_name);
+            TextView userNameView = mView.findViewById(R.id.FGfriend_single_name);
             userNameView.setText(StringUtils.abbreviate(name, 14));
         }
 

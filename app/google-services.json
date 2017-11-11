@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1076568761342-lag8gc045icrm93e62tivif7me6i46m6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.team7.sports",
+            "certificate_hash": "16417f6e786c6269da5171e121a336c847d071ef"
+          }
+        },
+        {
+          "client_id": "1076568761342-2nb3bdtc8neldsgncla1sipou8bhv8mg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.team7.sports",
+            "certificate_hash": "fa468c82af1f11b11f603f794f05a104ac3183c1"
+          }
+        },
+        {
           "client_id": "1076568761342-ph56b8shc5ehedjufhh3mn4dm6l6iom2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
