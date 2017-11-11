@@ -54,6 +54,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatMessageInput;
     private String gameid;
     private HashSet<String> set;
+    private Toolbar toolbar;
     public ChatActivity() {
     }
 
@@ -61,7 +62,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);  // modify here
-        Toolbar toolbar = findViewById(R.id.chat_tool_bar);
+        toolbar = findViewById(R.id.chat_tool_bar);
+
+        setMainToolBarTitleAsUsername();
 
         isGroup = getIntent().getBooleanExtra("is_group", false);
         if (isGroup) {
@@ -355,5 +358,24 @@ public class ChatActivity extends AppCompatActivity {
             userNameView.setText(message);
 
         }
+    }
+
+    private void setMainToolBarTitleAsUsername() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String friendName = dataSnapshot.getValue().toString();
+                toolbar.setTitle(friendName);
+                Log.i("friendName", friendName);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
