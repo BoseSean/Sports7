@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mainToolBar = findViewById(R.id.main_tool_bar);
 
         setSupportActionBar(mainToolBar);
-
+        mainToolBar.setLogo(R.drawable.sports_small_icon);
         // Tabs
         viewPager = findViewById(R.id.main_tabs);
         sectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.pager_game);
         tabLayout.getTabAt(2).setIcon(R.drawable.pager_team);
         tabLayout.getTabAt(3).setIcon(R.drawable.pager_friend);
-
     }
 
     @Override
