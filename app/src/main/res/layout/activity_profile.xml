@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     android:background="@color/darkColor">
 
+    <include
+        android:id="@+id/profile_toolbar"
+        layout="@layout/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"></include>
+
     <ImageView
         android:id="@+id/friend_single_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/profile_toolbar"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/test_profile" />
 

@@ -109,7 +109,6 @@ public class WeatherUtil {
             case "Windy,Cloudy":
                 return 24;
             case "Windy":
-
                 return 24;
             case "Windy, Fair":
                 return 24;

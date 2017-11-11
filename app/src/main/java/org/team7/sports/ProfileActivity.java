@@ -2,6 +2,7 @@ package org.team7.sports;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String friendId;
     private String usrid;
     private DatabaseReference myref;
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
         fUsername = findViewById(R.id.user_name);
         fFriendcount = findViewById(R.id.friend_count);
         friendId = getIntent().getStringExtra("this_friend_id");
+        toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         friends = new HashSet<String>();
 
