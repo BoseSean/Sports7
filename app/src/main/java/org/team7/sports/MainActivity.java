@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,6 +18,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import static org.team7.sports.Util.WeatherUtil.getRecommendation;
+import static org.team7.sports.Util.WeatherUtil.getWeatherForecast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mainToolBar = findViewById(R.id.main_tool_bar);
 
         setSupportActionBar(mainToolBar);
-
+        mainToolBar.setLogo(R.drawable.sports_small_icon);
         // Tabs
         viewPager = findViewById(R.id.main_tabs);
         sectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -61,7 +69,23 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {  // user is NOT signed in, go to StartActivity
             toStartActivity();
+        } else {
+            setMainToolBarTitleAsUsername();
+            try {
+                String weather = getWeatherForecast();
+                String recomendation = getRecommendation(weather);
+
+                //display in long period of time
+                Toast.makeText(getApplicationContext(), weather, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), recomendation, Toast.LENGTH_LONG).show();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     @Override

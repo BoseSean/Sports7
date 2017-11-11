@@ -4,32 +4,38 @@
     android:layout_height="match_parent"
     tools:context="org.team7.sports.GameFragment">
 
-
-    <Button
-        android:id="@+id/create_new_game_B"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="New Game" />
-
-    <TextView
-        android:id="@+id/current_games"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="3dp"
-        android:text="Current Games"
-        android:textSize="30sp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/Game_RV"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="440dp"
-        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent">
 
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/create_new_game_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="New Game" />
 
+        <TextView
+            android:id="@+id/current_games"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Game List"
+            android:textSize="35sp" />
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/Game_RV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/create_new_game_B"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"></android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
 </FrameLayout>

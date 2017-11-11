@@ -34,4 +34,5 @@ public class Account {
     public void setImage(String image) {
         this.image = image;
     }
+
 }

@@ -154,13 +154,9 @@ public class GameFragment extends Fragment {
                     }
                 });
             }
-
         };
         Log.d("ddd", "onbind()");
         gameList.setAdapter(gameRecyclerViewAdapter);
-
-
-
 
     }
 

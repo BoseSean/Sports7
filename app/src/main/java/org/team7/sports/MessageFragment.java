@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +132,10 @@ public class MessageFragment extends Fragment {
                             ref.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Log.d("data", gameid);
+                                    Log.d("data", dataSnapshot.toString());
                                     String name = dataSnapshot.child("gameName").getValue().toString();
+
                                     holder.setSenderName(name);
                                 }
 
@@ -190,7 +194,7 @@ public class MessageFragment extends Fragment {
         }
 
         public void setSenderName(String name) {
-            TextView userNameView = mView.findViewById(R.id.chats_single_name);
+            TextView userNameView = mView.findViewById(R.id.FGfriend_single_name);
             userNameView.setText(StringUtils.abbreviate(name, 14));
         }
 

@@ -9,18 +9,19 @@
         layout="@layout/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
     </include>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/main_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_tool_bar"
+        android:layout_above="@+id/main_pager_bar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/main_tool_bar">
 
     </android.support.v4.view.ViewPager>
 
