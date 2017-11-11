@@ -44,6 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         friends = new HashSet<String>();
 
@@ -52,9 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         myref = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid).child("friends");
-//        if(ref.orderByValue().equalTo(friendId).){
-//            send_friend_request.setText("You are already friend");
-//        }
+
         ref.orderByValue().equalTo(friendId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

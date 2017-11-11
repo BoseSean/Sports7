@@ -252,7 +252,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (lastVisiblePosition == -1 ||
                         (positionStart >= (friendlyMessageCount - 1) &&
                                 lastVisiblePosition == (positionStart - 1))) {
-                    messageList.scrollToPosition(positionStart + 2);
+                    messageList.scrollToPosition(positionStart);
                 }
             }
         }
@@ -332,6 +332,32 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void setChatToolBarTitleAsUsername() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef;
+
+        if (isGroup) {
+            Log.i("GameIDD", gameid);
+            myRef = database.getReference("GameThread").child(gameid).child("gameName");
+        } else {
+            myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
+        }
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String friendName = dataSnapshot.getValue().toString();
+                toolbar.setTitle(friendName);
+                Log.i("friendName", friendName);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public static class SendMessagesViewAdapter extends RecyclerView.ViewHolder {
         public View mView;
 
@@ -343,7 +369,6 @@ public class ChatActivity extends AppCompatActivity {
         // TODO public void setProfile()
 
         public void setTime(long time) {
-            //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.text_message_time);
             userNameView.setText(getTimeAgo(time));
         }
@@ -371,7 +396,6 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         public void setTime(long time) {
-            //TODO humanize time print
             TextView userNameView = mView.findViewById(R.id.text_message_time);
             userNameView.setText(getTimeAgo(time));
 
@@ -382,33 +406,5 @@ public class ChatActivity extends AppCompatActivity {
             userNameView.setText(message);
 
         }
-    }
-
-    private void setChatToolBarTitleAsUsername() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef;
-
-        if (isGroup) {
-            Log.i("GameIDD", gameid);
-            myRef = database.getReference("GameThread").child(gameid).child("gameName");
-        }
-
-        else {
-            myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
-        }
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String friendName = dataSnapshot.getValue().toString();
-                toolbar.setTitle(friendName);
-                Log.i("friendName", friendName);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }

@@ -9,4 +9,5 @@
 ## Messages
 
 ## Bugs
-TODO BUG: LatestMessage updates ONLY ONE side (emm so far no problem)
+TODO check network connection
+
