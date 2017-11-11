@@ -48,12 +48,14 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference userChatDatabase;
     private DatabaseReference gameDatabase;
     private DatabaseReference accountsDatabase;
+    private LinearLayoutManager messageLinearLayoutManager;
     private boolean isGroup;
     private RecyclerView messageList;
     private ImageButton sendBtn;
     private EditText chatMessageInput;
     private String gameid;
     private HashSet<String> set;
+    private Toolbar toolbar;
     public ChatActivity() {
     }
 
@@ -61,9 +63,10 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);  // modify here
-        Toolbar toolbar = findViewById(R.id.chat_tool_bar);
+        toolbar = findViewById(R.id.chat_tool_bar);
 
         isGroup = getIntent().getBooleanExtra("is_group", false);
+
         if (isGroup) {
             gameid = getIntent().getStringExtra("the_game_id");
             groupChatDatabase = FirebaseDatabase.getInstance().getReference().child("ChatThreads").child(gameid);
@@ -124,7 +127,7 @@ public class ChatActivity extends AppCompatActivity {
         });
         messageList = findViewById(R.id.chat_messages_list);
         messageList.setHasFixedSize(true);
-        LinearLayoutManager messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        messageLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         messageLinearLayoutManager.setStackFromEnd(true);
         messageList.setLayoutManager(messageLinearLayoutManager);
 
@@ -141,13 +144,15 @@ public class ChatActivity extends AppCompatActivity {
 
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseRecyclerOptions<Message> options;
+
+        setChatToolBarTitleAsUsername();
+
         if (isGroup) {
             options =
                     new FirebaseRecyclerOptions.Builder<Message>()
@@ -160,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
                             .setLifecycleOwner(this)
                             .build();
         }
-        FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
+        final FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder> messagesRecyclerViewAdapter = new FirebaseRecyclerAdapter<Message, RecyclerView.ViewHolder>(options) {
 
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -188,7 +193,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
             @Override
-            protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, Message model) {
+            protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, final Message model) {
                 if (holder.getClass() == SendMessagesViewAdapter.class) {
                     ((SendMessagesViewAdapter) holder).setMessage(model.getMessage());
                     ((SendMessagesViewAdapter) holder).setTime(model.getTime());
@@ -211,12 +216,13 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        DatabaseReference myref = FirebaseDatabase.getInstance().getReference().child("Users").child(model.getSender());
-                        myref.addValueEventListener(new ValueEventListener() {
+                        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("Users").child(model.getSender()).child("name");
+                        senderRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getKey() == "name")
-                                    ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                                Log.i("DataSnapshotsss", dataSnapshot.toString());
+                                Log.i("GroupSender", model.getSender());
+                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
                             }
 
                             @Override
@@ -232,6 +238,27 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+
+        messagesRecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = messagesRecyclerViewAdapter.getItemCount();
+                int lastVisiblePosition =
+                        messageLinearLayoutManager.findLastVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    messageList.scrollToPosition(positionStart + 2);
+                }
+            }
+        }
+        );
+
+        messagesRecyclerViewAdapter.startListening();
         messageList.setAdapter(messagesRecyclerViewAdapter);
     }
 
@@ -271,7 +298,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
@@ -356,5 +382,33 @@ public class ChatActivity extends AppCompatActivity {
             userNameView.setText(message);
 
         }
+    }
+
+    private void setChatToolBarTitleAsUsername() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef;
+
+        if (isGroup) {
+            Log.i("GameIDD", gameid);
+            myRef = database.getReference("GameThread").child(gameid).child("gameName");
+        }
+
+        else {
+            myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
+        }
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String friendName = dataSnapshot.getValue().toString();
+                toolbar.setTitle(friendName);
+                Log.i("friendName", friendName);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
