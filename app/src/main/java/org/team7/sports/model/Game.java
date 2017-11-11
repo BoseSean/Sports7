@@ -14,6 +14,7 @@ public class Game {
     private String hostName;
     private String hostEmail;
     //no more arraylist player
+    private int nowNumOfPlayer;
 
 
     private String passwd;
@@ -33,6 +34,7 @@ public class Game {
         //players.add(host);
         this.isPrivate = isPrivate;
         this.passwd = password;
+        this.nowNumOfPlayer = 1;
 
     }
 
@@ -40,6 +42,13 @@ public class Game {
 
     }
 
+    public int getNowNumOfPlayer() {
+        return this.nowNumOfPlayer;
+    }
+
+    public void setNowNumOfPlayer(int num) {
+        this.nowNumOfPlayer = num;
+    }
     public String getGameName() {
         return this.name;
     }
@@ -81,6 +90,10 @@ public class Game {
     //}
     public String getHostName() {
         return this.hostName;
+    }
+
+    public void setHostName(String hName) {
+        this.hostName = hName;
     }
 
     public String getHostEmail() {
