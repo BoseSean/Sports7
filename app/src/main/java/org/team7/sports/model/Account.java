@@ -9,12 +9,10 @@ public class Account {
 
     private String name;
     private String image;
-    private int numoffriends;
 
-    public Account(String name, String image, int numoffriends) {
+    public Account(String name, String image) {
         this.name = name;
         this.image = image;
-        this.numoffriends = numoffriends;
     }
 
     public Account(){
@@ -37,11 +35,4 @@ public class Account {
         this.image = image;
     }
 
-    public int getNumoffriends() {
-        return numoffriends;
-    }
-
-    public void setNumoffriends(int numoffriends) {
-        this.numoffriends = numoffriends;
-    }
 }
