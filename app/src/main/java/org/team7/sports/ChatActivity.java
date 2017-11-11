@@ -65,10 +65,8 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);  // modify here
         toolbar = findViewById(R.id.chat_tool_bar);
 
-
-        setMainToolBarTitleAsUsername();
-
         isGroup = getIntent().getBooleanExtra("is_group", false);
+
         if (isGroup) {
             gameid = getIntent().getStringExtra("the_game_id");
             groupChatDatabase = FirebaseDatabase.getInstance().getReference().child("ChatThreads").child(gameid);
@@ -146,13 +144,15 @@ public class ChatActivity extends AppCompatActivity {
 
         accountsDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseRecyclerOptions<Message> options;
+
+        setChatToolBarTitleAsUsername();
+
         if (isGroup) {
             options =
                     new FirebaseRecyclerOptions.Builder<Message>()
@@ -193,7 +193,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
             @Override
-            protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, Message model) {
+            protected void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, final Message model) {
                 if (holder.getClass() == SendMessagesViewAdapter.class) {
                     ((SendMessagesViewAdapter) holder).setMessage(model.getMessage());
                     ((SendMessagesViewAdapter) holder).setTime(model.getTime());
@@ -216,12 +216,13 @@ public class ChatActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        DatabaseReference myref = FirebaseDatabase.getInstance().getReference().child("Users").child(model.getSender());
-                        myref.addValueEventListener(new ValueEventListener() {
+                        DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference().child("Users").child(model.getSender()).child("name");
+                        senderRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getKey() == "name")
-                                    ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
+                                Log.i("DataSnapshotsss", dataSnapshot.toString());
+                                Log.i("GroupSender", model.getSender());
+                                ((ReceiveMessagesViewAdapter) holder).setSenderName(dataSnapshot.getValue().toString());
                             }
 
                             @Override
@@ -383,9 +384,18 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    private void setMainToolBarTitleAsUsername() {
+    private void setChatToolBarTitleAsUsername() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
+        DatabaseReference myRef;
+
+        if (isGroup) {
+            Log.i("GameIDD", gameid);
+            myRef = database.getReference("GameThread").child(gameid).child("gameName");
+        }
+
+        else {
+            myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
+        }
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
