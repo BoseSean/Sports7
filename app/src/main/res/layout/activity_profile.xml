@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/count_label"
-            android:text="count"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 

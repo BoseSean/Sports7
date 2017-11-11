@@ -1,8 +1,10 @@
 package org.team7.sports;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
         fUsername = findViewById(R.id.user_name);
         fFriendcount = findViewById(R.id.friend_count);
         friendId = getIntent().getStringExtra("this_friend_id");
+        send_friend_request = findViewById(R.id.send_request);
+        message_user = findViewById(R.id.message_user);
         toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,9 +51,11 @@ public class ProfileActivity extends AppCompatActivity {
         usrid = currentUse.getUid();
 
         myref = FirebaseDatabase.getInstance().getReference().child("Users").child(friendId);
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(usrid).child("friends");
+        if(ref.getKey().contains(friendId)){
+            send_friend_request.setText("Friend Already");
+        }
         ref.keepSynced(true);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
@@ -96,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 switch (dataSnapshot.getKey()) {
@@ -110,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 }
             }
+
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
@@ -126,7 +134,17 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        send_friend_request = findViewById(R.id.send_request);
+
+        message_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(friends.contains(myref.getKey())){
+                    Intent chatIntent = new Intent(ProfileActivity.this, ChatActivity.class);
+                    chatIntent.putExtra("that_user_id", myref.getKey());
+                    startActivity(chatIntent);
+                }
+            }
+        });
         send_friend_request.setOnClickListener((new View.OnClickListener() {
             @Override
 
