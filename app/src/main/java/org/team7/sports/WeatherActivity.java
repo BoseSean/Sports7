@@ -99,7 +99,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         in.close();
         JSONObject myResponse = new JSONObject(response.toString());
-        JSONArray myArray = new JSONArray();
+        JSONArray myArray;
         myArray = myResponse.getJSONArray("items");
 
         JSONObject items = new JSONObject(myArray.get(0).toString());
