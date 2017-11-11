@@ -42,6 +42,7 @@
         android:layout_alignBaseline="@+id/FGfriend_single_name"
         android:layout_alignBottom="@+id/FGfriend_single_name"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dp"
         android:text="TextView" />
 
     <ImageView

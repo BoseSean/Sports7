@@ -313,7 +313,7 @@ public class ChatActivity extends AppCompatActivity {
         HashMap messageSnapMap = new HashMap();
         HashMap userChatMap = new HashMap();
         messageSnapMap.put("latestMessage", message);
-        messageSnapMap.put("lastTime:", ServerValue.TIMESTAMP);
+        messageSnapMap.put("lastTime", ServerValue.TIMESTAMP);
         messageSnapMap.put("isGroup", false);
 
 

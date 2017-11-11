@@ -49,7 +49,10 @@ public class MessageFragment extends Fragment {
         mainView = inflater.inflate(R.layout.fragment_message, container, false);
         messageList = mainView.findViewById(R.id.chat_list);
         messageList.setHasFixedSize(true);
-        messageList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager messageListLayoutManager = new LinearLayoutManager(getActivity());
+        messageListLayoutManager.setReverseLayout(true);
+        messageListLayoutManager.setStackFromEnd(true);
+        messageList.setLayoutManager(messageListLayoutManager);
 
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
@@ -63,7 +66,7 @@ public class MessageFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id);
+        mChatQuery = FirebaseDatabase.getInstance().getReference().child("UserChats").child(current_user_id).orderByChild("lastTime");
         mChatQuery.keepSynced(true);
         FirebaseRecyclerOptions chatsRecyclerOptions = new FirebaseRecyclerOptions.Builder<Chat>()
                 .setQuery(mChatQuery, Chat.class)
@@ -79,6 +82,7 @@ public class MessageFragment extends Fragment {
 
                     @Override
                     protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
+                        Log.i("lastTime", getTimeAgo(model.getLastTime()));
                         holder.setTime(model.getLastTime());
                         holder.setMessage(model.getLatestMessage());
                         boolean isgroup = model.getIsGroup();
@@ -173,12 +177,9 @@ public class MessageFragment extends Fragment {
                         }
 
                     }
-
-
-
-
-
         };
+
+
         messageList.setAdapter(chatsRecyclerViewAdapter);
 
     }
