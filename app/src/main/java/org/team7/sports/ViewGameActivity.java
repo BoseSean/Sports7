@@ -248,10 +248,14 @@ public class ViewGameActivity extends AppCompatActivity {
 
     public void joinGame(DatabaseReference ref) {
         String inputPasswd = mPasswd.getEditText().getText().toString();
-        ref.child("nowNumberOfPlayer").addValueEventListener(new ValueEventListener() {
+        ref.child("nowNumOfPlayer").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());
+                Log.d("see", "see" + nowNumOfppl);
+
+                if (dataSnapshot.getValue() != null)
+                    nowNumOfppl = Integer.parseInt(dataSnapshot.getValue().toString());
+                Log.d("see", "see" + nowNumOfppl);
             }
 
             @Override
@@ -274,16 +278,18 @@ public class ViewGameActivity extends AppCompatActivity {
             return;
         }
 
-            FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
-            String usrid = currentUse.getUid();
-            ref.child("player").push().setValue(usrid);
-            ref.child("nowNumOfPlayer").setValue(nowNumOfppl + 1);
-            ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
-            HashMap<String, String> hmap = new HashMap<String, String>();
-            hmap.put("gameName", gameName);
-            hmap.put("sportType", gameType);
-            ref.child("participated games").push().setValue(hmap);
-            Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
+        FirebaseUser currentUse = FirebaseAuth.getInstance().getCurrentUser();
+        String usrid = currentUse.getUid();
+        ref.child("player").push().setValue(usrid);
+        nowNumOfppl += 1;
+
+        ref.child("nowNumOfPlayer").setValue(nowNumOfppl + 1);
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(usrid);
+        HashMap<String, String> hmap = new HashMap<String, String>();
+        hmap.put("gameName", gameName);
+        hmap.put("sportType", gameType);
+        ref.child("participated games").push().setValue(hmap);
+        Toast.makeText(ViewGameActivity.this, "Succeed", Toast.LENGTH_LONG).show();
 
 
     }
