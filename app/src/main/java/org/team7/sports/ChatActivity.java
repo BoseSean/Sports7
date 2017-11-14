@@ -336,7 +336,6 @@ public class ChatActivity extends AppCompatActivity {
         DatabaseReference myRef;
 
         if (isGroup) {
-            Log.i("GameIDD", gameid);
             myRef = database.getReference("GameThread").child(gameid).child("gameName");
         } else {
             myRef = database.getReference("Users").child(getIntent().getStringExtra("that_user_id")).child("name");
@@ -347,7 +346,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String friendName = dataSnapshot.getValue().toString();
                 toolbar.setTitle(friendName);
-                Log.i("friendName", friendName);
+
             }
 
             @Override

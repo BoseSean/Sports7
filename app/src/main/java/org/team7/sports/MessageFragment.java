@@ -82,7 +82,7 @@ public class MessageFragment extends Fragment {
 
                     @Override
                     protected void onBindViewHolder(final ChatsViewHolder holder, int position, Chat model) {
-                        Log.i("lastTime", getTimeAgo(model.getLastTime()));
+//                        Log.i("lastTime", getTimeAgo(model.getLastTime()));
                         holder.setTime(model.getLastTime());
                         holder.setMessage(model.getLatestMessage());
                         boolean isgroup = model.getIsGroup();
@@ -92,7 +92,7 @@ public class MessageFragment extends Fragment {
                             final String message_sender_id = getRef(position).getKey();
 
 
-                            DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
+                            final DatabaseReference senderDatabase = chatsDatabase.child(message_sender_id);
                             senderDatabase.keepSynced(true);
 
                             senderDatabase.addValueEventListener(new ValueEventListener() {
@@ -101,6 +101,7 @@ public class MessageFragment extends Fragment {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     String newMessage = dataSnapshot.child("latestMessage").getValue().toString();
                                     holder.setMessage(newMessage);
+
 
                                     String senderID = dataSnapshot.getKey();
                                     accountsDatabase.child(senderID).child("name").addValueEventListener(new ValueEventListener() {
@@ -136,8 +137,8 @@ public class MessageFragment extends Fragment {
                             ref.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Log.d("data", gameid);
-                                    Log.d("data", dataSnapshot.toString());
+//                                    Log.d("data", gameid);
+//                                    Log.d("data", dataSnapshot.toString());
                                     String name = dataSnapshot.child("gameName").getValue().toString();
 
                                     holder.setSenderName(name);
