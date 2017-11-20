@@ -16,7 +16,7 @@ People are having difficulty of finding enough players to play certain sports su
 <img src='img/weather.png' width="200">
 </p>
 <p>
-    <img src='img/chat.png' width="200">
+<!--     <img src='img/chat.png' width="200"> -->
 <img src="img/games.png" width="200">
 <img src='img/profile.png' width="200"></p>
 
